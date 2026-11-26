@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#063b38"><title>عبد الفتاح | مكتبة إسلامية</title>
+<style>
+:root{--deep:#063b38;--teal:#07534e;--mint:#e7f1ed;--gold:#c9a85d;--ink:#183b37;--muted:#637873;--paper:#f4f8f6;--line:#dce8e3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.9}
+header{background:linear-gradient(135deg,#052f2d,#08736a);color:#fff;text-align:center;padding:34px 14px 25px}.brand{font-size:clamp(27px,6vw,42px);font-weight:bold}.sub{color:#d4e9e2;margin:3px 0 16px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}nav a{color:white;text-decoration:none;border:1px solid #ffffff66;border-radius:24px;padding:5px 12px;font-size:14px}
+.wrap{max-width:1050px;margin:auto;padding:18px 13px}.hero,.panel,.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px;margin:12px 0}.hero{text-align:center;background:#e5f0eb}.verse{font-size:clamp(23px,4vw,30px);font-weight:bold;color:var(--teal)}
+section{margin:27px 0;scroll-margin-top:12px}section>h2{color:var(--deep);border-right:4px solid var(--gold);padding-right:11px;font-size:23px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{margin:0}.card h3{color:var(--teal);margin:0 0 7px}.muted,.ref{color:var(--muted);font-size:13px}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+button,select,input{font:inherit;border-radius:9px;padding:9px 12px}button{background:var(--teal);color:white;border:0;cursor:pointer}button.alt{background:#647a75}button:disabled{opacity:.5}
+select,input{border:1px solid var(--line);background:#fff;color:var(--ink);max-width:100%}
+.ayah{font-size:23px;line-height:2.1;padding:12px 4px;border-bottom:1px solid var(--line)}.hadith{background:#f8fbf9;border:1px solid var(--line);border-radius:13px;padding:15px;margin:10px 0}.hadithText,.dhikr{font-size:21px;line-height:2.1;color:var(--teal)}
+.counter{font-size:30px;font-weight:bold;color:var(--teal);text-align:center;margin:8px}
+.pill{display:inline-block;background:var(--mint);border-radius:20px;padding:2px 10px;color:var(--teal);font-size:12px}
+details{background:#f8fbf9;border:1px solid var(--line);border-radius:11px;padding:11px;margin-top:9px}summary{cursor:pointer;font-weight:bold;color:var(--teal)}
+.note{background:#fff8e8;border:1px solid #f0dfb4;border-radius:12px;padding:12px;color:#66532b}
+footer{text-align:center;background:var(--deep);color:#e0eee9;padding:22px;margin-top:30px}
+@media(max-width:520px){header{padding-top:26px}.wrap{padding:13px 10px}.ayah{font-size:21px}}
+</style></head>
+<body>
+<header><div class="brand">؏ــبــدالــڣــتــاح</div><div class="sub">𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂 · مكتبة إسلامية</div>
+<nav><a href="#quran">القرآن</a><a href="#hadith">الحديث</a><a href="#adhkar">الأذكار</a><a href="#seerah">السيرة</a><a href="#learning">علوم شرعية</a><a href="#books">كتب نافعة</a></nav></header>
+<main class="wrap">
+<div class="hero"><div class="verse">﴿وَقُل رَّبِّ زِدْنِي عِلْمًا﴾</div><div class="ref">طه: 114</div><p>اقرأ وتعلّم وتدبّر، واجعل العلم طريقًا للعمل.</p></div>
+
+<section id="quran"><h2>القرآن الكريم</h2><div class="panel"><div class="ref">114 سورة · المصحف بالرسم العثماني · المصدر: AlQuran Cloud</div>
+<div class="controls"><label for="surahSelect">السورة:</label><select id="surahSelect"><option>جارٍ تحميل السور...</option></select><button id="loadSurah">عرض السورة</button></div>
+<div id="quranStatus" class="muted">يتم تحميل فهرس السور...</div><div id="surahMeta" class="ref"></div><div id="ayahList"></div></div></section>
+
+<section id="hadith"><h2>الأحاديث النبوية</h2><div class="panel"><p class="muted">مختارات من الصحيحين، مع ذكر المصدر ورقم الحديث. يمكنك التنقل والبحث داخل المختارات.</p>
+<div class="controls"><button id="prevHadith" class="alt">السابق</button><button id="nextHadith">التالي</button><button id="randomHadith" class="alt">حديث عشوائي</button></div>
+<div class="controls"><input id="hadithSearch" type="search" placeholder="ابحث في نص الحديث"><button id="searchHadith">بحث</button><button id="allHadith" class="alt">عرض الكل</button></div>
+<div id="hadithStatus" class="muted"></div><div id="hadithOutput"></div></div></section>
+
+<section id="adhkar"><h2>الأذكار والأدعية</h2><div class="grid">
+<article class="card"><h3>سيد الاستغفار</h3><p class="dhikr">اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك عليّ، وأبوء بذنبي، فاغفر لي؛ فإنه لا يغفر الذنوب إلا أنت.</p><div class="ref">صحيح البخاري: 6306</div></article>
+<article class="card"><h3>بعد الصلاة</h3><p class="dhikr">أستغفر الله، أستغفر الله، أستغفر الله. اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام.</p><div class="ref">صحيح مسلم: 591</div></article>
+<article class="card"><h3>دعاء الكرب</h3><p class="dhikr">لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم.</p><div class="ref">صحيح البخاري: 6346، وصحيح مسلم: 2730</div></article>
+<article class="card"><h3>قبل النوم</h3><p class="dhikr">باسمك اللهم أموت وأحيا.</p><div class="ref">صحيح البخاري: 6324</div></article>
+<article class="card"><h3>عند الاستيقاظ</h3><p class="dhikr">الحمد لله الذي أحيانا بعدما أماتنا وإليه النشور.</p><div class="ref">صحيح البخاري: 6312</div></article>
+<article class="card"><h3>دعاء جامع</h3><p class="dhikr">اللهم إني أسألك الهدى والتقى والعفاف والغنى.</p><div class="ref">صحيح مسلم: 2721</div></article></div>
+<div class="panel"><h3>عداد التسبيح</h3><p class="muted">اختر الذكر واضغط بعد كل مرة تقولها.</p><div class="controls"><select id="tasbeehType"><option>سبحان الله</option><option>الحمد لله</option><option>الله أكبر</option><option>أستغفر الله</option><option>لا إله إلا الله</option></select><button id="countBtn">سبّح</button><button id="resetCount" class="alt">تصفير</button></div><div class="counter" id="countValue">0</div><div class="ref" id="countLabel">سبحان الله</div></div></section>
+
+<section id="seerah"><h2>السيرة النبوية</h2><div class="panel"><p class="muted">محطات مرتبة من حياة النبي ﷺ. افتح كل محطة لقراءة ملخصها.</p>
+<details open><summary>المولد والنشأة</summary><p>وُلد محمد ﷺ بمكة في عام الفيل، ونشأ يتيم الأب ثم الأم، وكفله جده عبد المطلب ثم عمه أبو طالب. عُرف بين قومه بالصدق والأمانة.</p></details>
+<details><summary>نزول الوحي</summary><p>كان يتعبد في غار حراء، فنزل عليه جبريل عليه السلام بأول آيات سورة العلق: ﴿اقرأ باسم ربك الذي خلق﴾، وكانت بداية النبوة.</p></details>
+<details><summary>الدعوة في مكة</summary><p>دعا إلى توحيد الله وترك عبادة الأصنام، فبدأت الدعوة سرية ثم جهر بها، وصبر النبي ﷺ وأصحابه على الأذى.</p></details>
+<details><summary>الهجرة إلى المدينة</summary><p>هاجر النبي ﷺ مع أبي بكر الصديق رضي الله عنه إلى المدينة، وآخى بين المهاجرين والأنصار، وبنى المسجد النبوي.</p></details>
+<details><summary>بدر وفتح مكة</summary><p>وقعت غزوة بدر في السنة الثانية للهجرة. وفي السنة الثامنة للهجرة فتح الله مكة للنبي ﷺ، فدخلها متواضعًا وعفا عن كثير ممن آذوه.</p></details>
+<details><summary>حجة الوداع والوفاة</summary><p>حج النبي ﷺ حجة الوداع في السنة العاشرة للهجرة، وتوفي ﷺ بالمدينة في السنة الحادية عشرة للهجرة.</p></details></div></section>
+
+<section id="learning"><h2>العلوم الشرعية</h2><div class="grid">
+<article class="card"><h3>العقيدة والتوحيد</h3><p>أصل الدين إفراد الله بالعبادة، والإيمان بأركان الإيمان الستة.</p><details><summary>دليل مختصر</summary><p>قال تعالى: ﴿وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ﴾ [الذاريات: 56]. وحديث جبريل في صحيح مسلم يبين أركان الإيمان والإسلام والإحسان.</p></details></article>
+<article class="card"><h3>الفقه والعبادات</h3><p>تعلم أحكام الطهارة والصلاة والزكاة والصيام والحج على هدي القرآن والسنة.</p><details><summary>ابدأ من هنا</summary><p>تعلم صفة وضوء النبي ﷺ وصلاته من الأحاديث الصحيحة، واسأل أهل العلم فيما يشكل عليك.</p></details></article>
+<article class="card"><h3>التفسير وعلوم القرآن</h3><p>فهم معاني الآيات، وأسباب النزول، والمكي والمدني، وجمع القرآن.</p><details><summary>مصادر مقترحة</summary><p>التفسير الميسر، وتفسير الشيخ عبد الرحمن السعدي، مع الرجوع إلى كتب التفسير المعتمدة.</p></details></article>
+<article class="card"><h3>الحديث وعلومه</h3><p>معرفة الصحيح والحسن والضعيف، وفهم التخريج وأحوال الرواة.</p><details><summary>قاعدة مهمة</summary><p>لا تنسب حديثًا إلى النبي ﷺ قبل التثبت من لفظه ومصدره ودرجته من كتب السنة وأحكام أهل الاختصاص.</p></details></article>
+<article class="card"><h3>الأخلاق والآداب</h3><p>الصدق والأمانة والرحمة وبر الوالدين وصلة الرحم وحفظ اللسان.</p><details><summary>من القرآن</summary><p>قال تعالى: ﴿وَقُولُوا لِلنَّاسِ حُسْنًا﴾ [البقرة: 83].</p></details></article>
+<article class="card"><h3>تزكية النفس</h3><p>الإخلاص والتوبة والصبر والشكر والتوكل ومحاسبة النفس.</p><details><summary>تذكير</summary><p>العلم النافع ما أورث خشية الله والعمل الصالح، وليس مجرد كثرة المعلومات.</p></details></article></div></section>
+
+<section id="books"><h2>كتب نافعة</h2><div class="grid">
+<article class="card"><h3>الأربعون النووية</h3><p>للإمام النووي. أحاديث جامعة في أصول الدين والعبادات والأخلاق.</p><span class="pill">حديث</span><details><summary>عن الكتاب</summary><p>مناسب للبداية في حفظ جوامع كلم النبي ﷺ مع شرح موثوق.</p></details></article>
+<article class="card"><h3>رياض الصالحين</h3><p>للإمام النووي. أبواب في العبادات والآداب والترغيب والترهيب.</p><span class="pill">حديث وآداب</span><details><summary>عن الكتاب</summary><p>يُقرأ بابًا بابًا مع مراجعة تخريج الأحاديث وشروح العلماء.</p></details></article>
+<article class="card"><h3>حصن المسلم</h3><p>لسعيد بن علي القحطاني. مختصر لأذكار اليوم والليلة والأحوال المختلفة.</p><span class="pill">أذكار</span><details><summary>عن الكتاب</summary><p>يساعد على جمع الأذكار اليومية، مع التثبت من الروايات ومصادرها.</p></details></article>
+<article class="card"><h3>الرحيق المختوم</h3><p>لصفي الرحمن المباركفوري. كتاب في السيرة النبوية.</p><span class="pill">سيرة</span><details><summary>عن الكتاب</summary><p>يعرض أحداث السيرة بترتيب تاريخي، ويمكن البدء به بعد معرفة أساسيات السيرة.</p></details></article>
+<article class="card"><h3>تيسير الكريم الرحمن</h3><p>للشيخ عبد الرحمن بن ناصر السعدي. تفسير ميسر للقرآن الكريم.</p><span class="pill">تفسير</span><details><summary>عن الكتاب</summary><p>من التفاسير السهلة النافعة في فهم المعنى الإجمالي وهدايات الآيات.</p></details></article>
+<article class="card"><h3>بلوغ المرام</h3><p>لابن حجر العسقلاني. أحاديث الأحكام مع عزوها إلى مصادرها.</p><span class="pill">فقه وحديث</span><details><summary>عن الكتاب</summary><p>أنسب لمن لديه أساس في مصطلح الحديث والفقه، ويُقرأ مع شرح معتمد.</p></details></article></div></section>
+<p class="note">المحتوى مختارات تعليمية، وليس فتوى. تُراجع المسائل التفصيلية إلى أهل العلم. نصوص القرآن والأحاديث ينبغي نقلها من المصحف وكتب السنة المعتمدة.</p>
+</main><footer>؏ــبــدالــڣــتــاح | 𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂<br>اللهم علّمنا ما ينفعنا وانفعنا بما علّمتنا وزدنا علمًا</footer>
+<script>
+'use strict';
+const QAPI='https://api.alquran.cloud/v1', $=id=>document.getElementById(id);
+async function getJSON(url){const r=await fetch(url);if(!r.ok)throw Error('تعذر الاتصال بمصدر القرآن');return r.json()}
+async function initSurahs(){try{const j=await getJSON(QAPI+'/surah');const s=$('surahSelect');s.innerHTML='';j.data.forEach(x=>{const o=document.createElement('option');o.value=x.number;o.textContent=x.number+' - '+x.name+' ('+x.numberOfAyahs+' آية)';s.append(o)});$('quranStatus').textContent='تم تحميل فهرس السور: '+j.data.length+' سورة.';loadSurah()}catch(e){$('quranStatus').textContent='تعذر تحميل السور. تحقق من الإنترنت ثم أعد تحميل الصفحة.'}}
+async function loadSurah(){const n=$('surahSelect').value;if(!n)return;$('quranStatus').textContent='جارٍ تحميل السورة...';$('ayahList').innerHTML='';try{const j=await getJSON(QAPI+'/surah/'+n+'/quran-uthmani');const s=j.data;$('surahMeta').textContent=s.name+' · '+s.numberOfAyahs+' آية';s.ayahs.forEach(a=>{const d=document.createElement('div');d.className='ayah';d.textContent=a.text+' ۝'+a.numberInSurah;$('ayahList').append(d)});$('quranStatus').textContent='تم عرض السورة.'}catch(e){$('quranStatus').textContent='تعذر تحميل السورة؛ حاول مرة أخرى.'}}
+$('loadSurah').addEventListener('click',loadSurah);$('surahSelect').addEventListener('change',loadSurah);
+const hadiths=[
+['إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى.','صحيح البخاري: 1، وصحيح مسلم: 1907'],
+['من كان يؤمن بالله واليوم الآخر فليقل خيرًا أو ليصمت.','صحيح البخاري: 6018، وصحيح مسلم: 47'],
+['لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه.','صحيح البخاري: 13، وصحيح مسلم: 45'],
+['المسلم من سلم المسلمون من لسانه ويده.','صحيح البخاري: 10، وصحيح مسلم: 40'],
+['الدين النصيحة.','صحيح مسلم: 55'],
+['من لا يَرحم لا يُرحم.','صحيح البخاري: 5997، وصحيح مسلم: 2318'],
+['يسروا ولا تعسروا، وبشروا ولا تنفروا.','صحيح البخاري: 69، وصحيح مسلم: 1734'],
+['الكلمة الطيبة صدقة.','صحيح البخاري: 2989، وصحيح مسلم: 1009'],
+['الطهور شطر الإيمان.','صحيح مسلم: 223'],
+['من سلك طريقًا يلتمس فيه علمًا سهل الله له به طريقًا إلى الجنة.','صحيح مسلم: 2699'],
+['اتق الله حيثما كنت، وأتبع السيئة الحسنة تمحها، وخالق الناس بخلق حسن.','جامع الترمذي: 1987، وقال: حسن صحيح'],
+['لا تغضب.','صحيح البخاري: 6116']
+];
+let hadithIndex=0;
+function showHadith(i){hadithIndex=(i+hadiths.length)%hadiths.length;const h=hadiths[hadithIndex];$('hadithOutput').innerHTML='';const c=document.createElement('article');c.className='hadith';const p=document.createElement('div');p.className='hadithText';p.textContent='«'+h[0]+'»';const m=document.createElement('div');m.className='ref';m.textContent=h[1]+' · '+(hadithIndex+1)+' من '+hadiths.length;$('hadithOutput').append(c);c.append(p,m);$('hadithStatus').textContent='';}
+function searchHadith(){const q=$('hadithSearch').value.trim();const found=hadiths.map((h,i)=>({h,i})).filter(x=>(x.h[0]+' '+x.h[1]).includes(q));$('hadithOutput').innerHTML='';if(!found.length){$('hadithStatus').textContent='لا توجد نتائج في المختارات الحالية.';return}$('hadithStatus').textContent='نتائج البحث: '+found.length;found.forEach(x=>{const c=document.createElement('article');c.className='hadith';const p=document.createElement('div');p.className='hadithText';p.textContent='«'+x.h[0]+'»';const m=document.createElement('div');m.className='ref';m.textContent=x.h[1];const b=document.createElement('button');b.textContent='عرض';b.onclick=()=>showHadith(x.i);c.append(p,m,b);$('hadithOutput').append(c)})}
+$('prevHadith').onclick=()=>showHadith(hadithIndex-1);$('nextHadith').onclick=()=>showHadith(hadithIndex+1);$('randomHadith').onclick=()=>showHadith(Math.floor(Math.random()*hadiths.length));$('searchHadith').onclick=searchHadith;$('allHadith').onclick=()=>{ $('hadithSearch').value='';$('hadithStatus').textContent='كل الأحاديث المختارة';$('hadithOutput').innerHTML='';hadiths.forEach((h,i)=>{const c=document.createElement('article');c.className='hadith';const p=document.createElement('div');p.className='hadithText';p.textContent='«'+h[0]+'»';const m=document.createElement('div');m.className='ref';m.textContent=h[1];c.append(p,m);$('hadithOutput').append(c)})};$('hadithSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchHadith()});showHadith(0);
+let count=0;function updateCount(){$('countValue').textContent=count;$('countLabel').textContent=$('tasbeehType').value}
+$('countBtn').onclick=()=>{count++;updateCount()};$('resetCount').onclick=()=>{count=0;updateCount()};$('tasbeehType').onchange=updateCount;
+document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
+initSurahs();
+</script></body></html>
