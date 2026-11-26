@@ -29,7 +29,22 @@ footer{text-align:center;background:var(--deep);color:#e0eee9;padding:22px;margi
 
 <div id="adminPanel" style="display:none;background:#e7f1ed;padding:20px;margin:20px;border-radius:15px">
   <h2>لوحة تحكم الموقع</h2>
-  <p>تم تسجيل الدخول كمدير الموقع.</p>
+  <h3>إعدادات هوية الموقع</h3>
+
+<label>اسم الموقع</label>
+<input id="editSiteName" type="text">
+
+<label>وصف الموقع</label>
+<textarea id="editDescription"></textarea>
+
+<label>اللون الأساسي</label>
+<input id="editPrimaryColor" type="color" value="#064E46">
+
+<label>اللون الثانوي</label>
+<input id="editSecondaryColor" type="color" value="#0B6B60">
+
+<button id="saveSiteSettings">حفظ التغييرات</button>
+<p id="settingsStatus"></p>
   <button id="adminLogout">تسجيل الخروج</button>
 </div>
 
