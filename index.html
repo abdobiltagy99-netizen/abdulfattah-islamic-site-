@@ -22,7 +22,67 @@ details{background:#f8fbf9;border:1px solid var(--line);border-radius:11px;paddi
 footer{text-align:center;background:var(--deep);color:#e0eee9;padding:22px;margin-top:30px}
 @media(max-width:520px){header{padding-top:26px}.wrap{padding:13px 10px}.ayah{font-size:21px}}
 </style></head>
-<body>
+<div id="adminEntry" style="display:none;text-align:center;padding:20px">
+  <button id="adminLogin">دخول لوحة التحكم</button>
+  <p id="adminStatus"></p>
+</div>
+
+<div id="adminPanel" style="display:none;background:#e7f1ed;padding:20px;margin:20px;border-radius:15px">
+  <h2>لوحة تحكم الموقع</h2>
+  <p>تم تسجيل الدخول كمدير الموقع.</p>
+  <button id="adminLogout">تسجيل الخروج</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC-vcmyQn-dH_NfdCMI3-_NRM2-Ab3-eO4",
+  authDomain: "abdulfattah-islamic.firebaseapp.com",
+  projectId: "abdulfattah-islamic",
+  storageBucket: "abdulfattah-islamic.firebasestorage.app",
+  messagingSenderId: "63407229652",
+  appId: "1:63407229652:web:85cfd929b0fb62e1414941",
+  measurementId: "G-29ECKTEGTD"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const ownerEmail = "abdobiltagy99@gmail.com";
+
+if (new URLSearchParams(location.search).get("admin") === "1") {
+  document.getElementById("adminEntry").style.display = "block";
+}
+
+auth.onAuthStateChanged(async user => {
+  const panel = document.getElementById("adminPanel");
+  const status = document.getElementById("adminStatus");
+
+  if (user && user.email === ownerEmail && user.emailVerified) {
+    panel.style.display = "block";
+    document.getElementById("adminEntry").style.display = "none";
+  } else {
+    panel.style.display = "none";
+    if (user) await auth.signOut();
+  }
+});
+
+document.getElementById("adminLogin").onclick = async () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try {
+    await auth.signInWithPopup(provider);
+  } catch (error) {
+    document.getElementById("adminStatus").textContent =
+      "تعذر تسجيل الدخول: " + error.message;
+  }
+};
+
+document.getElementById("adminLogout").onclick = () => auth.signOut();
+</script><body>
 <header><div class="brand">؏ــبــدالــڣــتــاح</div><div class="sub">𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂 · مكتبة إسلامية</div>
 <nav><a href="#quran">القرآن</a><a href="#hadith">الحديث</a><a href="#adhkar">الأذكار</a><a href="#seerah">السيرة</a><a href="#learning">علوم شرعية</a><a href="#books">كتب نافعة</a></nav></header>
 <main class="wrap">
