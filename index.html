@@ -26,26 +26,35 @@ footer{text-align:center;background:var(--deep);color:#e0eee9;padding:22px;margi
   <button id="adminLogin">دخول لوحة التحكم</button>
   <p id="adminStatus"></p>
 </div>
+<div id="adminPanel" style="display:none;background:#f4f8f6;padding:20px;margin:15px auto;max-width:750px;border-radius:18px;direction:rtl;color:#183b37">
 
-<div id="adminPanel" style="display:none;background:#e7f1ed;padding:20px;margin:20px;border-radius:15px">
-  <h2>لوحة تحكم الموقع</h2>
-  <h3>إعدادات هوية الموقع</h3>
+  <h2 style="color:#064E46;text-align:center">لوحة إدارة الموقع</h2>
+  <p style="text-align:center">إدارة هوية الموقع وإعداداته</p>
 
-<label>اسم الموقع</label>
-<input id="editSiteName" type="text">
+  <div style="background:white;padding:18px;border-radius:14px;margin:15px 0">
+    <h3>هوية الموقع</h3>
 
-<label>وصف الموقع</label>
-<textarea id="editDescription"></textarea>
+    <label>اسم الموقع</label>
+    <input id="editSiteName" type="text" style="display:block;width:100%;padding:12px;margin:8px 0 15px;border:1px solid #ccc;border-radius:8px">
 
-<label>اللون الأساسي</label>
-<input id="editPrimaryColor" type="color" value="#064E46">
+    <label>وصف الموقع</label>
+    <textarea id="editDescription" style="display:block;width:100%;padding:12px;margin:8px 0 15px;border:1px solid #ccc;border-radius:8px"></textarea>
 
-<label>اللون الثانوي</label>
-<input id="editSecondaryColor" type="color" value="#0B6B60">
+    <label>اللون الأساسي</label>
+    <input id="editPrimaryColor" type="color" value="#064E46" style="display:block;width:100%;height:45px;margin:8px 0 15px">
 
-<button id="saveSiteSettings">حفظ التغييرات</button>
-<p id="settingsStatus"></p>
-  <button id="adminLogout">تسجيل الخروج</button>
+    <label>اللون الثانوي</label>
+    <input id="editSecondaryColor" type="color" value="#0B6B60" style="display:block;width:100%;height:45px;margin:8px 0 15px">
+
+    <button id="saveSiteSettings" style="width:100%;padding:13px;background:#064E46;color:white;border:0;border-radius:9px;font-size:16px">حفظ التغييرات</button>
+
+    <p id="settingsStatus"></p>
+  </div>
+
+  <button id="adminLogout" style="width:100%;padding:12px;background:#8b2929;color:white;border:0;border-radius:9px">تسجيل الخروج</button>
+
+</div>
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
