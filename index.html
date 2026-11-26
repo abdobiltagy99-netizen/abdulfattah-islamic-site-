@@ -68,7 +68,39 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const ownerEmail = "abdobiltagy99@gmail.com";
+async function loadSiteSettings() {
+  try {
+    const doc = await db.collection("siteContent").doc("settings").get();
 
+    if (doc.exists) {
+      const data = doc.data();
+      document.getElementById("editSiteName").value = data.siteName || "";
+      document.getElementById("editDescription").value = data.description || "";
+      document.getElementById("editPrimaryColor").value = data.primaryColor || "#064E46";
+      document.getElementById("editSecondaryColor").value = data.secondaryColor || "#0B6B60";
+    }
+  } catch (error) {
+    document.getElementById("settingsStatus").textContent = "تعذر تحميل الإعدادات: " + error.message;
+  }
+}
+
+document.getElementById("saveSiteSettings").onclick = async () => {
+  const status = document.getElementById("settingsStatus");
+  status.textContent = "جارٍ الحفظ...";
+
+  try {
+    await db.collection("siteContent").doc("settings").set({
+      siteName: document.getElementById("editSiteName").value,
+      description: document.getElementById("editDescription").value,
+      primaryColor: document.getElementById("editPrimaryColor").value,
+      secondaryColor: document.getElementById("editSecondaryColor").value
+    }, { merge: true });
+
+    status.textContent = "تم حفظ الإعدادات بنجاح.";
+  } catch (error) {
+    status.textContent = "فشل الحفظ: " + error.message;
+  }
+};
 if (new URLSearchParams(location.search).get("admin") === "1") {
   document.getElementById("adminEntry").style.display = "block";
 }
@@ -79,6 +111,7 @@ auth.onAuthStateChanged(async user => {
 
   if (user && user.email === ownerEmail && user.emailVerified) {
     panel.style.display = "block";
+    loadSiteSettings();
     document.getElementById("adminEntry").style.display = "none";
   } else {
     panel.style.display = "none";
