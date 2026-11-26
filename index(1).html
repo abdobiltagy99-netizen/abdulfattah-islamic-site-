@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#063f3d">
+<meta name="description" content="مكتبة عبد الفتاح الإسلامية: القرآن الكريم والسنة والأذكار والمكتبة الشرعية.">
+<title>عبد الفتاح | المكتبة الإسلامية</title>
+<style>
+:root{--bg:#f3f7f5;--ink:#183b37;--muted:#637873;--teal:#07534e;--deep:#063b38;--gold:#c9a85d;--card:#fff;--line:#dce8e3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.95}
+header{background:linear-gradient(135deg,#052f2d,#08736a);color:#fff;padding:38px 16px 28px;text-align:center}
+.brand{font-size:clamp(28px,6vw,43px);font-weight:800}.sub{color:#d4e9e2;margin:5px 0 18px}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}nav a{color:#fff;text-decoration:none;border:1px solid #ffffff55;border-radius:30px;padding:5px 13px;font-size:14px}
+.wrap{max-width:1080px;margin:auto;padding:22px 15px}
+.hero,.panel,.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 18px #123b3210}
+.hero{background:#e5f0eb;padding:24px;text-align:center;margin-bottom:18px}.hero .verse{font-size:clamp(22px,4vw,30px);color:var(--teal);font-weight:700}
+.search{display:flex;gap:8px;margin:0 auto 18px;max-width:700px}.search input,input,select{font:inherit;border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:white;color:var(--ink);min-width:0}
+.search input{flex:1}
+section{margin:30px 0}section>h2{font-size:24px;color:var(--deep);border-right:4px solid var(--gold);padding-right:11px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:13px}
+.card{padding:17px}.card h3{color:var(--teal);margin:0 0 8px;font-size:18px}.ref,.muted{color:var(--muted);font-size:13px}
+button{background:var(--teal);color:#fff;border:0;border-radius:10px;padding:9px 14px;font:inherit;cursor:pointer}
+button.secondary{background:#e6f0ec;color:var(--deep);border:1px solid #cbded6}
+.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.controls select{flex:1;min-width:180px}
+#quranText{padding:18px;margin-top:12px;min-height:100px}
+.ayah{display:inline;line-height:2.3;font-size:23px;color:#173e38}.ayah-num{display:inline-flex;align-items:center;justify-content:center;border:1px solid #c8d9d2;border-radius:50%;width:27px;height:27px;font-size:12px;color:#8a6c2e;margin:0 4px}
+.hadith,.dhikr{font-size:20px;color:#07534e;font-weight:600}
+.book a{color:#08736a}.note{background:#fff8e8;border:1px solid #f0dfb4;padding:12px 15px;border-radius:12px;color:#66532b}
+.status{font-size:14px;color:var(--muted);margin:8px 0}.hidden{display:none!important}
+footer{text-align:center;color:#e0eee9;background:#063b38;padding:25px 12px;margin-top:35px}
+@media(max-width:520px){header{padding-top:28px}.wrap{padding:15px 11px}.card{padding:15px}.ayah{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">؏ــبــدالــڣــتــاح</div>
+ <div class="sub">𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂 · مكتبة إسلامية</div>
+ <nav>
+  <a href="#quran">القرآن الكريم</a><a href="#hadith">الحديث</a><a href="#adhkar">الأذكار</a><a href="#seerah">السيرة</a><a href="#learning">علوم شرعية</a><a href="#books">المكتبة</a>
+ </nav>
+</header>
+<main class="wrap">
+ <div class="hero">
+  <div class="verse">﴿وَقُل رَّبِّ زِدْنِي عِلْمًا﴾</div>
+  <div class="muted">سورة طه · الآية 114</div>
+  <p>محتوى إسلامي للتعلّم والتذكير، مع العناية بتوثيق الآيات والأحاديث.</p>
+ </div>
+ <div class="note">القرآن يُحمّل من واجهة AlQuran Cloud بالنص العثماني عند اتصال الإنترنت. يُرجى مقابلة النص في المصحف المعتمد عند الحفظ أو الطباعة. المحتوى التعليمي لا يُغني عن سؤال أهل العلم في المسائل الخاصة والنوازل.</div>
+
+ <section id="quran">
+  <h2>القرآن الكريم كاملًا</h2>
+  <div class="panel" style="padding:16px">
+   <p>اختر السورة لعرض آياتها كاملة، أو ابحث عن كلمة داخل السورة المفتوحة.</p>
+   <div class="controls">
+    <select id="surahSelect" aria-label="اختر السورة"><option value="">جارٍ تحميل فهرس السور...</option></select>
+    <button id="loadSurah">عرض السورة</button>
+   </div>
+   <div class="controls">
+    <input id="ayahSearch" type="search" placeholder="ابحث في السورة المفتوحة..." style="flex:1">
+    <button class="secondary" id="clearSearch">مسح البحث</button>
+   </div>
+   <div class="status" id="quranStatus" aria-live="polite">يتم تحميل فهرس السور...</div>
+   <div id="quranText" class="panel" aria-live="polite">اختر سورة لعرضها هنا.</div>
+   <div class="controls">
+    <button class="secondary" id="prevSurah">السورة السابقة</button>
+    <button class="secondary" id="nextSurah">السورة التالية</button>
+   </div>
+   <div class="ref">مصدر النص: AlQuran Cloud API · edition: quran-uthmani</div>
+  </div>
+ </section>
+
+ <section id="hadith">
+  <h2>أحاديث صحيحة</h2>
+  <div class="grid">
+   <article class="card"><div class="hadith">«إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى»</div><div class="ref">صحيح البخاري: 1 · صحيح مسلم: 1907</div></article>
+   <article class="card"><div class="hadith">«من كان يؤمن بالله واليوم الآخر فليقل خيرًا أو ليصمت»</div><div class="ref">صحيح البخاري: 6018 · صحيح مسلم: 47</div></article>
+   <article class="card"><div class="hadith">«لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه»</div><div class="ref">صحيح البخاري: 13 · صحيح مسلم: 45</div></article>
+   <article class="card"><div class="hadith">«من سلك طريقًا يلتمس فيه علمًا سهّل الله له به طريقًا إلى الجنة»</div><div class="ref">صحيح مسلم: 2699</div></article>
+   <article class="card"><div class="hadith">«الكلمة الطيبة صدقة»</div><div class="ref">صحيح البخاري: 2989 · صحيح مسلم: 1009</div></article>
+   <article class="card"><div class="hadith">«المسلم من سلم المسلمون من لسانه ويده»</div><div class="ref">صحيح البخاري: 10 · صحيح مسلم: 40</div></article>
+   <article class="card"><div class="hadith">«يسروا ولا تعسروا، وبشروا ولا تنفروا»</div><div class="ref">صحيح البخاري: 69 · صحيح مسلم: 1734</div></article>
+   <article class="card"><div class="hadith">«الطهور شطر الإيمان»</div><div class="ref">صحيح مسلم: 223</div></article>
+  </div>
+ </section>
+
+ <section id="adhkar">
+  <h2>الأذكار اليومية</h2>
+  <div class="grid">
+   <article class="card"><h3>سيد الاستغفار</h3><div class="dhikr">اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك عليّ، وأبوء بذنبي، فاغفر لي؛ فإنه لا يغفر الذنوب إلا أنت.</div><div class="ref">صحيح البخاري: 6306</div></article>
+   <article class="card"><h3>ذكر الصباح والمساء</h3><div class="dhikr">اللهم بك أصبحنا، وبك أمسينا، وبك نحيا، وبك نموت، وإليك النشور.</div><div class="ref">سنن أبي داود: 5068 · جامع الترمذي: 3391</div></article>
+   <article class="card"><h3>ذكر عند النوم</h3><div class="dhikr">باسمك اللهم أموت وأحيا.</div><div class="ref">صحيح البخاري: 6324</div></article>
+   <article class="card"><h3>بعد الصلاة</h3><div class="dhikr">أستغفر الله (ثلاثًا)، اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام.</div><div class="ref">صحيح مسلم: 591</div></article>
+   <article class="card"><h3>التسبيح بعد الصلاة</h3><div class="dhikr">سبحان الله (33)، والحمد لله (33)، والله أكبر (33)، ثم تمام المائة: لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير.</div><div class="ref">صحيح مسلم: 597</div></article>
+   <article class="card"><h3>دعاء الكرب</h3><div class="dhikr">لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم.</div><div class="ref">صحيح البخاري: 6346 · صحيح مسلم: 2730</div></article>
+   <article class="card"><h3>عند دخول المنزل</h3><div class="dhikr">بسم الله ولجنا، وبسم الله خرجنا، وعلى الله ربنا توكلنا.</div><div class="ref">سنن أبي داود: 5096</div></article>
+   <article class="card"><h3>دعاء الاستفتاح</h3><div class="dhikr">سبحانك اللهم وبحمدك، وتبارك اسمك، وتعالى جدك، ولا إله غيرك.</div><div class="ref">سنن أبي داود: 775 · جامع الترمذي: 242</div></article>
+  </div>
+ </section>
+
+ <section id="seerah">
+  <h2>السيرة النبوية</h2>
+  <div class="grid">
+   <article class="card"><h3>المولد والنشأة</h3><p>وُلد النبي محمد ﷺ بمكة عام الفيل على المشهور، ونشأ يتيم الأب ثم الأم، وعُرف بين قومه بالصادق الأمين.</p></article>
+   <article class="card"><h3>بداية الوحي</h3><p>نزل الوحي عليه ﷺ في غار حراء، وكانت أول ما نزل آيات من سورة العلق: ﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾.</p></article>
+   <article class="card"><h3>الهجرة النبوية</h3><p>هاجر النبي ﷺ من مكة إلى المدينة، وكانت الهجرة حدثًا محوريًا في تاريخ الدعوة وبداية التأريخ الهجري.</p></article>
+   <article class="card"><h3>الرحمة والخلق</h3><p>كان ﷺ أكمل الناس خلقًا، وقد قال الله تعالى: ﴿وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ﴾ [القلم: 4].</p></article>
+  </div>
+ </section>
+
+ <section id="learning">
+  <h2>أبواب العلوم الشرعية</h2>
+  <div class="grid">
+   <article class="card"><h3>العقيدة والتوحيد</h3><p>أصول الإيمان وأسماء الله وصفاته وحقوق التوحيد، من القرآن والسنة بفهم أهل العلم.</p></article>
+   <article class="card"><h3>الفقه والعبادات</h3><p>أحكام الطهارة والصلاة والصيام والزكاة والحج، مع بيان الدليل والخلاف الفقهي المعتبر.</p></article>
+   <article class="card"><h3>علوم القرآن</h3><p>التفسير وأسباب النزول والمكي والمدني وجمع القرآن وآداب التلاوة.</p></article>
+   <article class="card"><h3>علوم الحديث</h3><p>معرفة الصحيح والحسن والضعيف، ومصطلح الحديث، والتثبت من نسبة الأقوال إلى النبي ﷺ.</p></article>
+  </div>
+ </section>
+
+ <section id="books">
+  <h2>المكتبة الإسلامية</h2>
+  <div class="grid">
+   <article class="card book"><h3>الأربعون النووية</h3><p>للإمام النووي؛ أحاديث جامعة في أصول الدين والعبادات والأخلاق.</p><div class="ref">يُقرأ مع شرح موثوق، مثل شرح ابن رجب: جامع العلوم والحكم.</div></article>
+   <article class="card book"><h3>رياض الصالحين</h3><p>للإمام النووي؛ أبواب في العبادات والآداب والأخلاق والترغيب والترهيب.</p></article>
+   <article class="card book"><h3>حصن المسلم</h3><p>لسعيد بن علي بن وهف القحطاني؛ مختصر لأذكار اليوم والليلة والأحوال المختلفة.</p></article>
+   <article class="card book"><h3>الرحيق المختوم</h3><p>لصفي الرحمن المباركفوري؛ كتاب في السيرة النبوية.</p></article>
+   <article class="card book"><h3>تفسير السعدي</h3><p>تيسير الكريم الرحمن؛ تفسير ميسر للقرآن الكريم للشيخ عبد الرحمن بن ناصر السعدي.</p></article>
+   <article class="card book"><h3>الأدب المفرد</h3><p>للإمام البخاري؛ كتاب في بر الوالدين وصلة الرحم وحسن الخلق والآداب، وتُراعى درجات أحاديثه.</p></article>
+  </div>
+ </section>
+</main>
+<footer>؏ــبــدالــڣــتــاح | 𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂<br>اللهم علّمنا ما ينفعنا وانفعنا بما علّمتنا وزدنا علمًا</footer>
+<script>
+const API='https://api.alquran.cloud/v1';
+let surahs=[];
+const select=document.getElementById('surahSelect');
+const statusBox=document.getElementById('quranStatus');
+const quranText=document.getElementById('quranText');
+async function loadIndex(){
+ try{
+  const res=await fetch(API+'/surah');
+  if(!res.ok) throw new Error('تعذر الاتصال بمصدر فهرس السور');
+  const json=await res.json(); surahs=json.data||[];
+  select.innerHTML='<option value="">اختر السورة</option>'+surahs.map(s=>`<option value="${s.number}">${s.number}. ${s.name} — ${s.englishName} (${s.numberOfAyahs} آية)</option>`).join('');
+  statusBox.textContent='تم تحميل فهرس السور. اختر سورة للبدء.';
+  select.value='1'; loadSurah();
+ }catch(e){statusBox.textContent='تعذر تحميل الفهرس. تحقق من اتصال الإنترنت ثم أعد تحميل الصفحة.';select.innerHTML='<option value="">تعذر تحميل السور</option>'}
+}
+async function loadSurah(){
+ const n=Number(select.value); if(!n)return;
+ statusBox.textContent='جارٍ تحميل السورة...';quranText.textContent='جارٍ التحميل...';
+ try{
+  const res=await fetch(`${API}/surah/${n}/quran-uthmani`);
+  if(!res.ok)throw new Error();
+  const json=await res.json(),s=json.data;
+  quranText.innerHTML=`<h3 style="text-align:center;color:#07534e">${s.name} · ${s.englishName}</h3><div class="muted" style="text-align:center">${s.revelationType==='Meccan'?'مكية':'مدنية'} · ${s.numberOfAyahs} آية</div><hr style="border:0;border-top:1px solid #dce8e3;margin:14px 0">`+
+   s.ayahs.map(a=>`<span class="ayah" data-text="${escapeHtml(a.text)}">${escapeHtml(a.text)} <span class="ayah-num">${a.numberInSurah}</span></span> `).join('');
+  statusBox.textContent=`تم تحميل ${s.name} كاملة.`;
+  document.getElementById('ayahSearch').value='';
+ }catch(e){quranText.textContent='لم نتمكن من تحميل السورة. تحقق من الإنترنت وحاول مرة أخرى.';statusBox.textContent='حدث خطأ في الاتصال بمصدر القرآن.'}
+}
+function escapeHtml(str){return String(str).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+document.getElementById('loadSurah').addEventListener('click',loadSurah);
+document.getElementById('prevSurah').addEventListener('click',()=>{if(Number(select.value)>1){select.value=Number(select.value)-1;loadSurah()}});
+document.getElementById('nextSurah').addEventListener('click',()=>{if(Number(select.value)<114){select.value=Number(select.value)+1;loadSurah()}});
+document.getElementById('ayahSearch').addEventListener('input',e=>{
+ const q=e.target.value.trim();
+ document.querySelectorAll('.ayah').forEach(a=>{a.classList.toggle('hidden',!!q&&!a.dataset.text.includes(q))});
+});
+document.getElementById('clearSearch').addEventListener('click',()=>{document.getElementById('ayahSearch').value='';document.querySelectorAll('.ayah').forEach(a=>a.classList.remove('hidden'))});
+loadIndex();
+</script>
+</body>
+</html>
