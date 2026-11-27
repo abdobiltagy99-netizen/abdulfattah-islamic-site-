@@ -1610,7 +1610,7 @@ ctx.fillStyle = "#fff8e8";
 
   function wrapText(size) {
     ctx.font = "bold " + size + "px Tahoma";
-    const words = text.split(/\s+/);
+    const words = text.replace(/۝\s*(\d+)/g, "۝$1").split(/\s+/);
     const result = [];
     let line = "";
 
