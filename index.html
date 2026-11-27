@@ -1451,22 +1451,39 @@ async function shareAsImage(text) {
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, 1080, 1080);
 
-  // زخارف الخلفية
-  ctx.globalAlpha = 0.13;
-  for (let x = 40; x < 1080; x += 90) {
-    for (let y = 40; y < 1080; y += 90) {
-      ctx.strokeStyle = "#e4bd68";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(x, y, 24, 0, Math.PI * 2);
-      ctx.moveTo(x - 17, y);
-      ctx.lineTo(x + 17, y);
-      ctx.moveTo(x, y - 17);
-      ctx.lineTo(x, y + 17);
-      ctx.stroke();
-    }
+  // زخارف هندسية إسلامية بنجوم ثمانية
+ctx.globalAlpha = 0.16;
+ctx.strokeStyle = "#e7c879";
+ctx.lineWidth = 2;
+
+function drawIslamicStar(x, y, radius) {
+  ctx.beginPath();
+
+  for (let i = 0; i < 16; i++) {
+    const angle = (i * Math.PI / 8) - Math.PI / 2;
+    const r = i % 2 === 0 ? radius : radius * 0.48;
+    const px = x + Math.cos(angle) * r;
+    const py = y + Math.sin(angle) * r;
+
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
   }
-  ctx.globalAlpha = 1;
+
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(x, y, radius * 0.2, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+for (let x = 100; x < 1080; x += 150) {
+  for (let y = 100; y < 1080; y += 150) {
+    drawIslamicStar(x, y, 27);
+  }
+}
+
+ctx.globalAlpha = 1;
 
   // الإطار الخارجي
   ctx.strokeStyle = "#d9b45f";
