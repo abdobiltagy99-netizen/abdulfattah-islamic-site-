@@ -9,5 +9,12 @@
   "scope": "/",
   "display": "standalone",
   "background_color": "#073f3b",
-  "theme_color": "#073f3b"
+  "theme_color": "#073f3b",
+  "icons": [
+    {
+      "src": "/1000037383.jpg",
+      "sizes": "any",
+      "type": "image/jpeg"
+    }
+  ]
 }
