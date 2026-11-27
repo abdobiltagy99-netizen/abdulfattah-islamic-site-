@@ -2050,4 +2050,62 @@ if ("serviceWorker" in navigator) {
       .catch(error => console.error("Service Worker:", error));
   });
 }
+</script><script>
+(() => {
+  const books = {
+    "الأربعون النووية":
+      "https://ketabonline.com/ar/books/1457",
+
+    "رياض الصالحين":
+      "https://ketabonline.com/ar/books/1102",
+
+    "حصن المسلم":
+      "https://islamenc.com/ar/books/24",
+
+    "الرحيق المختوم":
+      "https://ketabonline.com/ar/books/6926",
+
+    "تيسير الكريم الرحمن":
+      "https://quranpedia.net/book/3",
+
+    "بلوغ المرام":
+      "https://ketabonline.com/ar/books/6302"
+  };
+
+  document.querySelectorAll("#books .card").forEach(card => {
+    const title = card.querySelector("h3")?.textContent.trim();
+    const url = books[title];
+
+    if (!url) return;
+
+    let button = card.querySelector(".full-book-link");
+
+    if (!button && title === "رياض الصالحين") {
+      button = [...card.querySelectorAll("a")].find(a =>
+        a.textContent.includes("قراءة كتاب رياض الصالحين")
+      );
+    }
+
+    if (!button) {
+      button = document.createElement("a");
+      const details = card.querySelector("details");
+
+      if (details) {
+        details.insertAdjacentElement("afterend", button);
+      } else {
+        card.appendChild(button);
+      }
+    }
+
+    button.className = "full-book-link";
+    button.href = url;
+    button.target = "_blank";
+    button.rel = "noopener noreferrer";
+    button.textContent = "📖 قراءة الكتاب كاملًا";
+    button.style.cssText =
+      "display:block;margin-top:15px;background:#d4af37;" +
+      "color:#073f3b;padding:13px;border-radius:10px;" +
+      "text-align:center;text-decoration:none;font-weight:bold;";
+  });
+})();
 </script></body></html>
