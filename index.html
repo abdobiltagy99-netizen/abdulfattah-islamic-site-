@@ -1519,8 +1519,31 @@ let hadithIndex=0;
 function showHadith(i){hadithIndex=(i+hadiths.length)%hadiths.length;const h=hadiths[hadithIndex];$('hadithOutput').innerHTML='';const c=document.createElement('article');c.className='hadith';const p=document.createElement('div');p.className='hadithText';p.textContent='«'+h[0]+'»';const m=document.createElement('div');m.className='ref';m.textContent=h[1]+' · '+(hadithIndex+1)+' من '+hadiths.length;$('hadithOutput').append(c);c.append(p,m);$('hadithStatus').textContent='';}
 function searchHadith(){const q=$('hadithSearch').value.trim();const found=hadiths.map((h,i)=>({h,i})).filter(x=>(x.h[0]+' '+x.h[1]).includes(q));$('hadithOutput').innerHTML='';if(!found.length){$('hadithStatus').textContent='لا توجد نتائج في المختارات الحالية.';return}$('hadithStatus').textContent='نتائج البحث: '+found.length;found.forEach(x=>{const c=document.createElement('article');c.className='hadith';const p=document.createElement('div');p.className='hadithText';p.textContent='«'+x.h[0]+'»';const m=document.createElement('div');m.className='ref';m.textContent=x.h[1];const b=document.createElement('button');b.textContent='عرض';b.onclick=()=>showHadith(x.i);c.append(p,m,b);$('hadithOutput').append(c)})}
 $('prevHadith').onclick=()=>showHadith(hadithIndex-1);$('nextHadith').onclick=()=>showHadith(hadithIndex+1);$('randomHadith').onclick=()=>showHadith(Math.floor(Math.random()*hadiths.length));$('searchHadith').onclick=searchHadith;$('allHadith').onclick=()=>{ $('hadithSearch').value='';$('hadithStatus').textContent='كل الأحاديث المختارة';$('hadithOutput').innerHTML='';hadiths.forEach((h,i)=>{const c=document.createElement('article');c.className='hadith';const p=document.createElement('div');p.className='hadithText';p.textContent='«'+h[0]+'»';const m=document.createElement('div');m.className='ref';m.textContent=h[1];c.append(p,m);$('hadithOutput').append(c)})};$('hadithSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchHadith()});showHadith(0);
-let count=0;function updateCount(){$('countValue').textContent=count;$('countLabel').textContent=$('tasbeehType').value}
-$('countBtn').onclick=()=>{count++;updateCount()};$('resetCount').onclick=()=>{count=0;updateCount()};$('tasbeehType').onchange=updateCount;
+let savedTasbeeh = JSON.parse(localStorage.getItem("tasbeehData") || "{}");
+let count = Number(savedTasbeeh.count) || 0;
+
+if (savedTasbeeh.type) $("tasbeehType").value = savedTasbeeh.type;
+if (savedTasbeeh.goal) $("tasbeehGoal").value = savedTasbeeh.goal;
+
+function updateCount() {
+  const goal = Number($("tasbeehGoal").value);
+  $("countValue").textContent = count;
+  $("countLabel").textContent = $("tasbeehType").value;
+  $("tasbeehProgress").textContent = count + " من " + goal + " تسبيحة";
+
+  localStorage.setItem("tasbeehData", JSON.stringify({
+    count: count,
+    type: $("tasbeehType").value,
+    goal: goal
+  }));
+}
+
+$("countBtn").onclick = () => { count++; updateCount(); };
+$("resetCount").onclick = () => { count = 0; updateCount(); };
+$("tasbeehType").onchange = updateCount;
+$("tasbeehGoal").onchange = updateCount;
+
+updateCount();
 document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
 initSurahs();
   const searchInput = document.getElementById('globalSearch');
