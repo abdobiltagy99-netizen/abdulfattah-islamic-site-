@@ -2218,6 +2218,15 @@ if ("serviceWorker" in navigator) {
     <h3>المساعد الإسلامي</h3>
     <p>اكتب سؤالك الديني وسنحاول الإجابة بالدليل والمصدر.</p>
     <input id="islamicAiQuestion" type="search" placeholder="ابحث عن سؤال ديني...">
+    <div style="margin:12px 0;color:#073f3b;font-weight:bold">
+  أسئلة شائعة:
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما أركان الإسلام؟'">أركان الإسلام</button>
+  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما حكم الصلاة؟'">الصلاة</button>
+  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما حكم الغيبة؟'">الغيبة</button>
+  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما فضل الصدقة؟'">الصدقة</button>
+</div>
     <button id="islamicAiSend" onclick="askIslamicAi()">إرسال السؤال</button>
     <div id="islamicAiAnswer"></div>
   </div>
