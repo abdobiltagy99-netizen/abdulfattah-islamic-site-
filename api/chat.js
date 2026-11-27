@@ -36,7 +36,9 @@ module.exports = async (req, res) => {
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(500).json({ error: "تعذر الحصول على الإجابة حاليًا." });
+  return res.status(response.status).json({
+    error: data.error?.message || "حدث خطأ في الاتصال."
+  });
     }
 
     const answer = (data.output || [])
