@@ -1633,16 +1633,31 @@ ctx.fillStyle = "#fff8e8";
   });
 
   // التذييل
-ctx.font = "bold 22px Tahoma";
+ctx.font = "bold 30px Tahoma";
 ctx.direction = "rtl";
 ctx.textAlign = "center";
 
 ctx.fillStyle = "#fff8e8";
 ctx.fillText(
-  "﴿ قُلْ يَجْمَعُ بَيْنَنَا رَبُّنَا ثُمَّ يَفْتَحُ بَيْنَنَا بِالْحَقِّ وَهُوَ الْفَتَّاحُ الْعَلِيمُ ﴾",
-    540,
-  900
+  "﴿ قُلْ يَجْمَعُ بَيْنَنَا رَبُّنَا ثُمَّ",
+  540,
+  920
 );
+
+const line2 = "يَفْتَحُ بَيْنَنَا بِالْحَقِّ وَهُوَ الْفَتَّاحُ الْعَلِيمُ ﴾";
+const prefix = "يَفْتَحُ بَيْنَنَا بِالْحَقِّ وَهُوَ ";
+const word = "الْفَتَّاحُ";
+
+ctx.fillStyle = "#fff8e8";
+ctx.fillText(line2, 540, 965);
+
+const totalWidth = ctx.measureText(line2).width;
+const prefixWidth = ctx.measureText(prefix).width;
+const wordWidth = ctx.measureText(word).width;
+const wordX = 540 + totalWidth / 2 - prefixWidth - wordWidth / 2;
+
+ctx.fillStyle = "#e8c778";
+ctx.fillText(word, wordX, 965);
   // إنشاء الصورة ومشاركتها
   canvas.toBlob(async blob => {
     if (!blob) {
