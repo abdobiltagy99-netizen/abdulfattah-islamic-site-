@@ -802,7 +802,7 @@ document.getElementById("adminLogout").onclick = () => auth.signOut();
 
 </div>
 </section>
-
+<script>
 'use strict';
 const QAPI='https://api.alquran.cloud/v1', $=id=>document.getElementById(id);
 async function getJSON(url){const r=await fetch(url);if(!r.ok)throw Error('تعذر الاتصال بمصدر القرآن');return r.json()}
