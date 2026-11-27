@@ -605,6 +605,17 @@ loadSiteSettings();
     }, { merge: true });
 
     document.querySelector("#siteHeader img").src = logoUrl;
+    document.getElementById("siteNameDisplay").textContent =
+  document.getElementById("editSiteName").value;
+
+document.getElementById("siteDescriptionDisplay").textContent =
+  document.getElementById("editDescription").value;
+
+document.documentElement.style.setProperty("--deep",
+  document.getElementById("editPrimaryColor").value);
+
+document.documentElement.style.setProperty("--teal",
+  document.getElementById("editSecondaryColor").value);
     document.getElementById("logoPreview").src = logoUrl;
 
     status.textContent = "تم حفظ الإعدادات بنجاح.";
