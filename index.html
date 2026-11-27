@@ -95,8 +95,8 @@ document.documentElement.style.setProperty("--teal", data.secondaryColor || "#07
     document.getElementById("settingsStatus").textContent = "تعذر تحميل الإعدادات: " + error.message;
   }
 }
-
-document.getElementById("saveSiteSettings").onclick = async () => {
+loadSiteSettings();
+  document.getElementById("saveSiteSettings").onclick = async () => {
   const status = document.getElementById("settingsStatus");
   status.textContent = "جارٍ الحفظ...";
 
