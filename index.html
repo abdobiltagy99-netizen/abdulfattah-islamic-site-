@@ -83,6 +83,10 @@ async function loadSiteSettings() {
     if (doc.exists) {
       const data = doc.data();
       document.getElementById("editSiteName").value = data.siteName || "";
+      document.getElementById("siteNameDisplay").textContent = data.siteName || "";
+      document.getElementById("siteDescriptionDisplay").textContent = data.description || "";
+      document.documentElement.style.setProperty("--deep", data.primaryColor || "#063b38");
+document.documentElement.style.setProperty("--teal", data.secondaryColor || "#07534e");
       document.getElementById("editDescription").value = data.description || "";
       document.getElementById("editPrimaryColor").value = data.primaryColor || "#064E46";
       document.getElementById("editSecondaryColor").value = data.secondaryColor || "#0B6B60";
@@ -139,7 +143,7 @@ document.getElementById("adminLogin").onclick = async () => {
 
 document.getElementById("adminLogout").onclick = () => auth.signOut();
 </script><body>
-<header><div class="brand">؏ــبــدالــڣــتــاح</div><div class="sub">𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂 · مكتبة إسلامية</div>
+<header>؏ــبــدالــڣــتــاح</div>𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂<div class="sub" id="siteDescriptionDisplay"> مكتبة إسلامية</div>
 <nav><a href="#quran">القرآن</a><a href="#hadith">الحديث</a><a href="#adhkar">الأذكار</a><a href="#seerah">السيرة</a><a href="#learning">علوم شرعية</a><a href="#books">كتب نافعة</a></nav></header>
 <main class="wrap">
 <div class="hero"><div class="verse">﴿وَقُل رَّبِّ زِدْنِي عِلْمًا﴾</div><div class="ref">طه: 114</div><p>اقرأ وتعلّم وتدبّر، واجعل العلم طريقًا للعمل.</p></div>
@@ -179,7 +183,7 @@ document.getElementById("adminLogout").onclick = () => auth.signOut();
 <article class="card"><h3>تزكية النفس</h3><p>الإخلاص والتوبة والصبر والشكر والتوكل ومحاسبة النفس.</p><details><summary>تذكير</summary><p>العلم النافع ما أورث خشية الله والعمل الصالح، وليس مجرد كثرة المعلومات.</p></details></article></div></section>
 
 <section id="books"><h2>كتب نافعة</h2><div class="grid">
-<article class="card"><h3>الأربعون النووية</h3><p>للإمام النووي. أحاديث جامعة في أصول الدين والعبادات والأخلاق.</p><span class="pill">حديث</span><details><summary>عن الكتاب</summary><p>مناسب للبداية في حفظ جوامع كلم النبي ﷺ مع شرح موثوق.</p></details></article>
+<article class="card"><h3>الأربعون النووية</h3><p>للإمام النووي. أحاديث جامعة في أصول الدين وال<div class="brand" id="siteNameDisplay">عبادات والأخلاق.</p><span class="pill">حديث</span><details><summary>عن الكتاب</summary><p>مناسب للبداية في حفظ جوامع كلم النبي ﷺ مع شرح موثوق.</p></details></article>
 <article class="card"><h3>رياض الصالحين</h3><p>للإمام النووي. أبواب في العبادات والآداب والترغيب والترهيب.</p><span class="pill">حديث وآداب</span><details><summary>عن الكتاب</summary><p>يُقرأ بابًا بابًا مع مراجعة تخريج الأحاديث وشروح العلماء.</p></details></article>
 <article class="card"><h3>حصن المسلم</h3><p>لسعيد بن علي القحطاني. مختصر لأذكار اليوم والليلة والأحوال المختلفة.</p><span class="pill">أذكار</span><details><summary>عن الكتاب</summary><p>يساعد على جمع الأذكار اليومية، مع التثبت من الروايات ومصادرها.</p></details></article>
 <article class="card"><h3>الرحيق المختوم</h3><p>لصفي الرحمن المباركفوري. كتاب في السيرة النبوية.</p><span class="pill">سيرة</span><details><summary>عن الكتاب</summary><p>يعرض أحداث السيرة بترتيب تاريخي، ويمكن البدء به بعد معرفة أساسيات السيرة.</p></details></article>
