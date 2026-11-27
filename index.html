@@ -354,8 +354,6 @@ loadSiteSettings();
     document.getElementById("logoPreview").src = URL.createObjectURL(file);
   }
 });
-  document.getElementById("logoPreview").src = this.value;
-});
   document.getElementById("saveSiteSettings").onclick = async () => {
   const status = document.getElementById("settingsStatus");
   status.textContent = "جارٍ الحفظ...";
