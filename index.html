@@ -274,7 +274,7 @@ footer{
   <label style="font-weight:bold">شعار الموقع</label>
   <p style="font-size:13px;color:#637873">اكتب اسم صورة الشعار الموجودة في ملفات GitHub.</p>
 
-  <input id="editLogo" type="text"
+  <input id="editLogo" type="file" accept="image/*"
     value="./1000037383.jpg"
     placeholder="مثال: ./logo.png"
     style="width:100%;padding:12px;margin:10px 0">
@@ -333,7 +333,6 @@ async function loadSiteSettings() {
     if (doc.exists) {
       const data = doc.data();
       document.getElementById("editSiteName").value = data.siteName || "";
-      document.getElementById("editLogo").value = data.logoUrl || "./1000037383.jpg";
 document.getElementById("logoPreview").src = data.logoUrl || "./1000037383.jpg";
 document.querySelector("#siteHeader img").src = data.logoUrl || "./1000037383.jpg";
       document.getElementById("siteNameDisplay").textContent = data.siteName || "";
@@ -349,7 +348,12 @@ document.documentElement.style.setProperty("--teal", data.secondaryColor || "#07
   }
 }
 loadSiteSettings();
-  document.getElementById("editLogo").addEventListener("input", function () {
+  document.getElementById("editLogo").addEventListener("change", function () {
+  const file = this.files[0];
+  if (file) {
+    document.getElementById("logoPreview").src = URL.createObjectURL(file);
+  }
+});
   document.getElementById("logoPreview").src = this.value;
 });
   document.getElementById("saveSiteSettings").onclick = async () => {
