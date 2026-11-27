@@ -1480,20 +1480,169 @@ async function shareAsImage(text) {
       line = test;
     }
   });
+async function shareAsImage(text) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1080;
+  canvas.height = 1080;
+  const ctx = canvas.getContext("2d");
 
-  if (line) lines.push(line);
+  // خلفية متدرجة
+  const bg = ctx.createLinearGradient(0, 0, 1080, 1080);
+  bg.addColorStop(0, "#062d27");
+  bg.addColorStop(0.5, "#0b513d");
+  bg.addColorStop(1, "#031f1b");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, 1080, 1080);
 
-  const visibleLines = lines.slice(0, 14);
-  const startY = Math.max(330, (1080 - visibleLines.length * 65) / 2);
+  // زخارف الخلفية
+  ctx.globalAlpha = 0.13;
+  for (let x = 40; x < 1080; x += 90) {
+    for (let y = 40; y < 1080; y += 90) {
+      ctx.strokeStyle = "#e4bd68";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x, y, 24, 0, Math.PI * 2);
+      ctx.moveTo(x - 17, y);
+      ctx.lineTo(x + 17, y);
+      ctx.moveTo(x, y - 17);
+      ctx.lineTo(x, y + 17);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
 
-  visibleLines.forEach((item, index) => {
-    ctx.fillText(item, 540, startY + index * 65);
+  // الإطار الخارجي
+  ctx.strokeStyle = "#d9b45f";
+  ctx.lineWidth = 8;
+  ctx.strokeRect(28, 28, 1024, 1024);
+
+  ctx.strokeStyle = "#f4dfaa";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(45, 45, 990, 990);
+
+  ctx.strokeStyle = "#d9b45f";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(65, 65, 950, 950);
+
+  // زخارف الزوايا
+  function corner(x, y, sx, sy) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(sx, sy);
+    ctx.strokeStyle = "#e7c879";
+    ctx.lineWidth = 4;
+
+    ctx.beginPath();
+    ctx.moveTo(0, 100);
+    ctx.lineTo(0, 0);
+    ctx.lineTo(100, 0);
+    ctx.moveTo(15, 75);
+    ctx.lineTo(15, 15);
+    ctx.lineTo(75, 15);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(25, -25);
+    ctx.lineTo(50, 0);
+    ctx.lineTo(25, 25);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  corner(75, 75, 1, 1);
+  corner(1005, 75, -1, 1);
+  corner(75, 1005, 1, -1);
+  corner(1005, 1005, -1, -1);
+
+  // لوحة المحتوى
+  ctx.fillStyle = "rgba(0, 20, 15, 0.48)";
+  ctx.fillRect(105, 245, 870, 590);
+
+  ctx.strokeStyle = "#c9a24e";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(105, 245, 870, 590);
+
+  // عنوان الموقع
+  ctx.fillStyle = "#f2d58e";
+  ctx.font = "bold 48px Tahoma";
+  ctx.textAlign = "center";
+  ctx.direction = "rtl";
+  ctx.fillText("عبد الفتاح | مكتبة إسلامية", 540, 165);
+
+  // زخرفة فاصلة
+  ctx.strokeStyle = "#d9b45f";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(250, 205);
+  ctx.lineTo(470, 205);
+  ctx.moveTo(610, 205);
+  ctx.lineTo(830, 205);
+  ctx.stroke();
+
+  ctx.save();
+  ctx.translate(540, 205);
+  ctx.rotate(Math.PI / 4);
+  ctx.strokeRect(-12, -12, 24, 24);
+  ctx.restore();
+
+  // تجهيز النص
+  ctx.fillStyle = "#fff8e8";
+  ctx.textAlign = "center";
+  ctx.direction = "rtl";
+
+  let fontSize = 40;
+  let lines = [];
+
+  function wrapText(size) {
+    ctx.font = "bold " + size + "px Tahoma";
+    const words = text.split(/\s+/);
+    const result = [];
+    let line = "";
+
+    words.forEach(word => {
+      const test = line ? line + " " + word : word;
+
+      if (ctx.measureText(test).width > 760 && line) {
+        result.push(line);
+        line = word;
+      } else {
+        line = test;
+      }
+    });
+
+    if (line) result.push(line);
+    return result;
+  }
+
+  lines = wrapText(fontSize);
+
+  while (lines.length > 12 && fontSize > 27) {
+    fontSize -= 2;
+    lines = wrapText(fontSize);
+  }
+
+  const lineHeight = fontSize * 1.8;
+  const visibleLines = lines.slice(0, 12);
+  const startY = 540 - ((visibleLines.length - 1) * lineHeight) / 2;
+
+  ctx.font = "bold " + fontSize + "px Tahoma";
+
+  visibleLines.forEach((line, index) => {
+    ctx.fillText(line, 540, startY + index * lineHeight);
   });
 
-  ctx.fillStyle = "#f5d995";
-  ctx.font = "28px Tahoma";
-  ctx.fillText("من الموقع الإسلامي", 540, 950);
+  // التذييل
+  ctx.fillStyle = "#f2d58e";
+  ctx.font = "bold 30px Tahoma";
+  ctx.fillText("من الموقع الإسلامي", 540, 915);
 
+  ctx.font = "24px Tahoma";
+  ctx.fillText("﴿ وَاذْكُرُوا اللَّهَ كَثِيرًا ﴾", 540, 965);
+
+  // إنشاء الصورة ومشاركتها
   canvas.toBlob(async blob => {
     if (!blob) {
       alert("تعذر إنشاء الصورة.");
@@ -1511,15 +1660,13 @@ async function shareAsImage(text) {
           title: "مشاركة من الموقع الإسلامي"
         });
       } catch (error) {
-        if (error.name !== "AbortError") {
-          downloadImage(blob);
-        }
+        if (error.name !== "AbortError") downloadImage(blob);
       }
     } else {
       downloadImage(blob);
     }
   }, "image/png");
-}
+  }
 
 function downloadImage(blob) {
   const url = URL.createObjectURL(blob);
