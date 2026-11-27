@@ -380,6 +380,10 @@ document.getElementById("adminLogin").onclick = async () => {
 
 document.getElementById("adminLogout").onclick = () => auth.signOut();
 </script><body>
+  <div style="max-width:700px;margin:20px auto;padding:15px;text-align:center">
+  <input id="globalSearch" type="search" placeholder="ابحث في القرآن والأحاديث والأذكار والكتب..." style="width:100%;padding:14px;border:2px solid #08736a;border-radius:12px;font-size:16px">
+  <div id="searchResults" style="text-align:right;margin-top:12px"></div>
+  </div>
 <header id="siteHeader">
 <img src="./1000037383.jpg" alt="شعار الموقع" style="width:90px;height:90px;object-fit:contain;margin:auto auto 10px;display:block">
 <div class="brand" id="siteNameDisplay">؏ــبــدالــڣــتــاح</div>
@@ -831,4 +835,30 @@ let count=0;function updateCount(){$('countValue').textContent=count;$('countLab
 $('countBtn').onclick=()=>{count++;updateCount()};$('resetCount').onclick=()=>{count=0;updateCount()};$('tasbeehType').onchange=updateCount;
 document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
 initSurahs();
+  const searchInput = document.getElementById('globalSearch');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', function () {
+  const q = this.value.trim().toLowerCase();
+  searchResults.innerHTML = '';
+
+  if (q.length < 2) return;
+
+  const elements = document.querySelectorAll('section h2, section h3, section p, section li');
+  let count = 0;
+
+  elements.forEach(el => {
+    if (el.closest('#searchResults')) return;
+    if (el.textContent.toLowerCase().includes(q)) {
+      const item = document.createElement('div');
+      item.style.cssText = 'padding:10px;margin:6px 0;background:#e8f3ef;border-radius:8px;cursor:pointer';
+      item.textContent = el.textContent.trim().slice(0, 180);
+      item.onclick = () => el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      searchResults.appendChild(item);
+      count++;
+    }
+  });
+
+  if (!count) searchResults.textContent = 'لا توجد نتائج مطابقة.';
+});
 </script></body></html>
