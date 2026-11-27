@@ -1296,7 +1296,11 @@ const hadiths=[
 ['من كذب علي متعمدًا فليتبوأ مقعده من النار.','صحيح البخاري: 1291'],
 ['من يرد الله به خيرًا يفقهه في الدين.','صحيح البخاري: 71'],
 ['لا حسد إلا في اثنتين: رجل آتاه الله القرآن فهو يتلوه آناء الليل وآناء النهار.','صحيح البخاري: 5025'],
-['الحياء لا يأتي إلا بخير.','صحيح البخاري: 6117'],
+['الحياء لا يأتي إلا بخير.','صحيح البخاري: 6117'],['من بنى مسجدًا لله بنى الله له في الجنة مثله.','صحيح البخاري: 450، وصحيح مسلم: 533'],
+['من صلى البردين دخل الجنة.','صحيح البخاري: 574، وصحيح مسلم: 635'],
+['إن الله لا ينظر إلى صوركم وأموالكم، ولكن ينظر إلى قلوبكم وأعمالكم.','صحيح مسلم: 2564'],
+['لا يدخل الجنة من كان في قلبه مثقال ذرة من كبر.','صحيح مسلم: 91'],
+['أحب الأعمال إلى الله أدومها وإن قل.','صحيح البخاري: 6464، وصحيح مسلم: 783'],
 ];
 let hadithIndex=0;
 function showHadith(i){hadithIndex=(i+hadiths.length)%hadiths.length;const h=hadiths[hadithIndex];$('hadithOutput').innerHTML='';const c=document.createElement('article');c.className='hadith';const p=document.createElement('div');p.className='hadithText';p.textContent='«'+h[0]+'»';const m=document.createElement('div');m.className='ref';m.textContent=h[1]+' · '+(hadithIndex+1)+' من '+hadiths.length;$('hadithOutput').append(c);c.append(p,m);$('hadithStatus').textContent='';}
