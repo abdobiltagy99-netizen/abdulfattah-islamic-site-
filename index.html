@@ -838,27 +838,76 @@ initSurahs();
   const searchInput = document.getElementById('globalSearch');
 const searchResults = document.getElementById('searchResults');
 
+const sectionNames = {
+  quran: 'القرآن الكريم',
+  hadith: 'الأحاديث النبوية',
+  adhkar: 'الأذكار',
+  seerah: 'السيرة النبوية',
+  learning: 'العلوم الشرعية',
+  books: 'الكتب الإسلامية'
+};
+
 searchInput.addEventListener('input', function () {
   const q = this.value.trim().toLowerCase();
   searchResults.innerHTML = '';
 
   if (q.length < 2) return;
 
-  const elements = document.querySelectorAll('section h2, section h3, section p, section li');
-  let count = 0;
+  let results = [];
 
-  elements.forEach(el => {
-    if (el.closest('#searchResults')) return;
-    if (el.textContent.toLowerCase().includes(q)) {
-      const item = document.createElement('div');
-      item.style.cssText = 'padding:10px;margin:6px 0;background:#e8f3ef;border-radius:8px;cursor:pointer';
-      item.textContent = el.textContent.trim().slice(0, 180);
-      item.onclick = () => el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      searchResults.appendChild(item);
-      count++;
-    }
+  document.querySelectorAll('main section').forEach(section => {
+    const sectionName =
+      sectionNames[section.id] ||
+      section.querySelector('h2')?.textContent ||
+      'الموقع';
+
+    section.querySelectorAll(
+      'h2,h3,p,li,summary,.ayah,.hadithText,.dhikr'
+    ).forEach(el => {
+      const text = el.textContent.trim();
+
+      if (text.toLowerCase().includes(q) && text.length > 2) {
+        results.push({
+          text: text.slice(0, 220),
+          section: sectionName,
+          element: el
+        });
+      }
+    });
   });
 
-  if (!count) searchResults.textContent = 'لا توجد نتائج مطابقة.';
+  if (!results.length) {
+    searchResults.textContent = 'لا توجد نتائج مطابقة.';
+    return;
+  }
+
+  const heading = document.createElement('p');
+  heading.textContent = 'عدد النتائج: ' + results.length;
+  searchResults.appendChild(heading);
+
+  results.slice(0, 40).forEach(result => {
+    const item = document.createElement('div');
+
+    item.style.cssText =
+      'padding:12px;margin:8px 0;background:#fff;border:1px solid #dce8e3;border-right:4px solid #08736a;border-radius:10px;cursor:pointer';
+
+    const section = document.createElement('small');
+    section.textContent = result.section;
+    section.style.cssText = 'display:block;color:#08736a;font-weight:bold';
+
+    const content = document.createElement('div');
+    content.textContent = result.text;
+
+    item.append(section, content);
+
+    item.onclick = () => {
+      result.element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    };
+
+    searchResults.appendChild(item);
+  });
 });
 </script></body></html>
