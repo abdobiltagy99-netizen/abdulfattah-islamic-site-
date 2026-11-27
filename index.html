@@ -1612,7 +1612,30 @@ ctx.globalAlpha = 1;
   ctx.font = "bold 30px Tahoma";
 
   ctx.font = "24px Tahoma";
-  ctx.fillText("﴿ وَاذْكُرُوا اللَّهَ كَثِيرًا ﴾", 540, 965);
+  ctx.font = "24px Tahoma";
+ctx.direction = "rtl";
+ctx.textAlign = "right";
+
+const before = "﴿ قُلْ يَجْمَعُ بَيْنَنَا رَبُّنَا ثُمَّ يَفْتَحُ بَيْنَنَا بِالْحَقِّ وَهُوَ ";
+const word = "الْفَتَّاحُ";
+const after = " الْعَلِيمُ ﴾";
+
+const w1 = ctx.measureText(before).width;
+const w2 = ctx.measureText(word).width;
+const w3 = ctx.measureText(after).width;
+
+let x = 540 + (w1 + w2 + w3) / 2;
+
+ctx.fillStyle = "#fff8e8";
+ctx.fillText(before, x, 965);
+x -= w1;
+
+ctx.fillStyle = "#d9b45f";
+ctx.fillText(word, x, 965);
+x -= w2;
+
+ctx.fillStyle = "#fff8e8";
+ctx.fillText(after, x, 965);
 
   // إنشاء الصورة ومشاركتها
   canvas.toBlob(async blob => {
