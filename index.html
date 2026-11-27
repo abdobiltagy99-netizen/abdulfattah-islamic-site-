@@ -1938,4 +1938,11 @@ imageShareObserver.observe(document.querySelector("main"), {
   background: #c9a45c;
   color: #073f3b;
 }
-</style></body></html>
+</style><script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js")
+      .catch(error => console.error("Service Worker:", error));
+  });
+}
+</script></body></html>
