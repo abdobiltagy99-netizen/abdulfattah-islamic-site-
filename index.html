@@ -160,15 +160,232 @@ document.getElementById("adminLogout").onclick = () => auth.signOut();
 <div class="controls"><input id="hadithSearch" type="search" placeholder="ابحث في نص الحديث"><button id="searchHadith">بحث</button><button id="allHadith" class="alt">عرض الكل</button></div>
 <div id="hadithStatus" class="muted"></div><div id="hadithOutput"></div></div></section>
 
-<section id="adhkar"><h2>الأذكار والأدعية</h2><div class="grid">
-<article class="card"><h3>سيد الاستغفار</h3><p class="dhikr">اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك عليّ، وأبوء بذنبي، فاغفر لي؛ فإنه لا يغفر الذنوب إلا أنت.</p><div class="ref">صحيح البخاري: 6306</div></article>
-<article class="card"><h3>بعد الصلاة</h3><p class="dhikr">أستغفر الله، أستغفر الله، أستغفر الله. اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام.</p><div class="ref">صحيح مسلم: 591</div></article>
-<article class="card"><h3>دعاء الكرب</h3><p class="dhikr">لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم.</p><div class="ref">صحيح البخاري: 6346، وصحيح مسلم: 2730</div></article>
-<article class="card"><h3>قبل النوم</h3><p class="dhikr">باسمك اللهم أموت وأحيا.</p><div class="ref">صحيح البخاري: 6324</div></article>
-<article class="card"><h3>عند الاستيقاظ</h3><p class="dhikr">الحمد لله الذي أحيانا بعدما أماتنا وإليه النشور.</p><div class="ref">صحيح البخاري: 6312</div></article>
-<article class="card"><h3>دعاء جامع</h3><p class="dhikr">اللهم إني أسألك الهدى والتقى والعفاف والغنى.</p><div class="ref">صحيح مسلم: 2721</div></article></div>
-<div class="panel"><h3>عداد التسبيح</h3><p class="muted">اختر الذكر واضغط بعد كل مرة تقولها.</p><div class="controls"><select id="tasbeehType"><option>سبحان الله</option><option>الحمد لله</option><option>الله أكبر</option><option>أستغفر الله</option><option>لا إله إلا الله</option></select><button id="countBtn">سبّح</button><button id="resetCount" class="alt">تصفير</button></div><div class="counter" id="countValue">0</div><div class="ref" id="countLabel">سبحان الله</div></div></section>
+<section id="adhkar">
+<h2>الأذكار والأدعية</h2>
 
+<h3>أذكار الصباح والمساء</h3>
+<div class="grid">
+
+<article class="card">
+<h3>أصبحنا وأصبح الملك لله</h3>
+<p class="dhikr">أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير. رب أسألك خير ما في هذا اليوم وخير ما بعده، وأعوذ بك من شر ما في هذا اليوم وشر ما بعده. رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر.</p>
+<div class="ref">صحيح مسلم: 2723</div>
+</article>
+
+<article class="card">
+<h3>أمسينا وأمسى الملك لله</h3>
+<p class="dhikr">أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير. رب أسألك خير ما في هذه الليلة وخير ما بعدها، وأعوذ بك من شر ما في هذه الليلة وشر ما بعدها. رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر.</p>
+<div class="ref">صحيح مسلم: 2723</div>
+</article>
+
+<article class="card">
+<h3>سيد الاستغفار</h3>
+<p class="dhikr">اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك عليّ، وأبوء بذنبي، فاغفر لي؛ فإنه لا يغفر الذنوب إلا أنت.</p>
+<div class="ref">صحيح البخاري: 6306 — مرة صباحًا ومرة مساءً</div>
+</article>
+
+<article class="card">
+<h3>رضيت بالله ربًا</h3>
+<p class="dhikr">رضيت بالله ربًا، وبالإسلام دينًا، وبمحمد صلى الله عليه وسلم نبيًا.</p>
+<div class="ref">سنن أبي داود: 5072، والترمذي: 3389 — ثلاث مرات صباحًا ومساءً</div>
+</article>
+
+<article class="card">
+<h3>بسم الله الذي لا يضر</h3>
+<p class="dhikr">بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء، وهو السميع العليم.</p>
+<div class="ref">سنن أبي داود: 5088، والترمذي: 3388 — ثلاث مرات صباحًا ومساءً</div>
+</article>
+
+<article class="card">
+<h3>الإخلاص والمعوذتان</h3>
+<p class="dhikr">قل هو الله أحد. (سورة الإخلاص كاملة)</p>
+<p class="dhikr">قل أعوذ برب الفلق. (سورة الفلق كاملة)</p>
+<p class="dhikr">قل أعوذ برب الناس. (سورة الناس كاملة)</p>
+<div class="ref">سنن أبي داود: 5082، والترمذي: 3575 — ثلاث مرات صباحًا ومساءً</div>
+</article>
+
+<article class="card">
+<h3>دعاء الصباح والمساء</h3>
+<p class="dhikr">اللهم بك أصبحنا، وبك أمسينا، وبك نحيا، وبك نموت، وإليك النشور.</p>
+<div class="ref">سنن أبي داود: 5068، والترمذي: 3391</div>
+</article>
+
+<article class="card">
+<h3>التسبيح مائة مرة</h3>
+<p class="dhikr">سبحان الله وبحمده.</p>
+<div class="ref">صحيح البخاري: 6405 — مائة مرة في اليوم</div>
+</article>
+
+</div>
+
+<h3>أذكار بعد الصلاة</h3>
+<div class="grid">
+
+<article class="card">
+<h3>الاستغفار والسلام</h3>
+<p class="dhikr">أستغفر الله، أستغفر الله، أستغفر الله. اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام.</p>
+<div class="ref">صحيح مسلم: 591</div>
+</article>
+
+<article class="card">
+<h3>التهليل بعد الصلاة</h3>
+<p class="dhikr">لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير. اللهم لا مانع لما أعطيت، ولا معطي لما منعت، ولا ينفع ذا الجد منك الجد.</p>
+<div class="ref">صحيح البخاري: 844، وصحيح مسلم: 593</div>
+</article>
+
+<article class="card">
+<h3>التسبيح والتحميد والتكبير</h3>
+<p class="dhikr">سبحان الله (33 مرة)، الحمد لله (33 مرة)، الله أكبر (33 مرة)، ثم تمام المائة: لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير.</p>
+<div class="ref">صحيح مسلم: 597</div>
+</article>
+
+</div>
+
+<h3>أذكار النوم والاستيقاظ</h3>
+<div class="grid">
+
+<article class="card">
+<h3>قبل النوم</h3>
+<p class="dhikr">باسمك اللهم أموت وأحيا.</p>
+<div class="ref">صحيح البخاري: 6324</div>
+</article>
+
+<article class="card">
+<h3>دعاء النوم</h3>
+<p class="dhikr">اللهم أسلمت نفسي إليك، ووجهت وجهي إليك، وفوضت أمري إليك، وألجأت ظهري إليك، رغبة ورهبة إليك، لا ملجأ ولا منجا منك إلا إليك، آمنت بكتابك الذي أنزلت، وبنبيك الذي أرسلت.</p>
+<div class="ref">صحيح البخاري: 6311، وصحيح مسلم: 2710</div>
+</article>
+
+<article class="card">
+<h3>التسبيح قبل النوم</h3>
+<p class="dhikr">سبحان الله (33 مرة)، الحمد لله (33 مرة)، الله أكبر (34 مرة).</p>
+<div class="ref">صحيح البخاري: 5362، وصحيح مسلم: 2727</div>
+</article>
+
+<article class="card">
+<h3>آخر آيتين من سورة البقرة</h3>
+<p class="dhikr">آمَنَ الرَّسُولُ بِمَا أُنْزِلَ إِلَيْهِ مِنْ رَبِّهِ وَالْمُؤْمِنُونَ... إلى نهاية سورة البقرة.</p>
+<div class="ref">صحيح البخاري: 5009، وصحيح مسلم: 808</div>
+</article>
+
+<article class="card">
+<h3>عند الاستيقاظ</h3>
+<p class="dhikr">الحمد لله الذي أحيانا بعدما أماتنا وإليه النشور.</p>
+<div class="ref">صحيح البخاري: 6312</div>
+</article>
+
+</div>
+
+<h3>أذكار دخول المسجد والخروج منه</h3>
+<div class="grid">
+
+<article class="card">
+<h3>عند دخول المسجد</h3>
+<p class="dhikr">بسم الله، والصلاة والسلام على رسول الله، اللهم افتح لي أبواب رحمتك.</p>
+<div class="ref">صحيح مسلم: 713</div>
+</article>
+
+<article class="card">
+<h3>عند الخروج من المسجد</h3>
+<p class="dhikr">بسم الله، والصلاة والسلام على رسول الله، اللهم إني أسألك من فضلك.</p>
+<div class="ref">صحيح مسلم: 713</div>
+</article>
+
+</div>
+
+<h3>أذكار الطعام والشراب</h3>
+<div class="grid">
+
+<article class="card">
+<h3>قبل الطعام</h3>
+<p class="dhikr">بسم الله.</p>
+<div class="ref">صحيح البخاري: 5376، وصحيح مسلم: 2022</div>
+</article>
+
+<article class="card">
+<h3>إذا نسي التسمية في أوله</h3>
+<p class="dhikr">بسم الله أوله وآخره.</p>
+<div class="ref">سنن أبي داود: 3767، والترمذي: 1858</div>
+</article>
+
+<article class="card">
+<h3>بعد الطعام</h3>
+<p class="dhikr">الحمد لله الذي أطعمني هذا ورزقنيه من غير حول مني ولا قوة.</p>
+<div class="ref">سنن أبي داود: 4023، والترمذي: 3458</div>
+</article>
+
+</div>
+
+<h3>أذكار الوضوء والخلاء</h3>
+<div class="grid">
+
+<article class="card">
+<h3>بعد الوضوء</h3>
+<p class="dhikr">أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمدًا عبده ورسوله.</p>
+<div class="ref">صحيح مسلم: 234</div>
+</article>
+
+<article class="card">
+<h3>قبل دخول الخلاء</h3>
+<p class="dhikr">اللهم إني أعوذ بك من الخبث والخبائث.</p>
+<div class="ref">صحيح البخاري: 142، وصحيح مسلم: 375</div>
+</article>
+
+<article class="card">
+<h3>بعد الخروج من الخلاء</h3>
+<p class="dhikr">غفرانك.</p>
+<div class="ref">سنن أبي داود: 30، والترمذي: 7</div>
+</article>
+
+</div>
+
+<h3>أدعية متنوعة من السنة</h3>
+<div class="grid">
+
+<article class="card">
+<h3>دعاء الكرب</h3>
+<p class="dhikr">لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم.</p>
+<div class="ref">صحيح البخاري: 6346، وصحيح مسلم: 2730</div>
+</article>
+
+<article class="card">
+<h3>دعاء جامع</h3>
+<p class="dhikr">اللهم إني أسألك الهدى والتقى والعفاف والغنى.</p>
+<div class="ref">صحيح مسلم: 2721</div>
+</article>
+
+<article class="card">
+<h3>دعاء الاستعاذة</h3>
+<p class="dhikr">اللهم إني أعوذ بك من الهم والحزن، والعجز والكسل، والبخل والجبن، وضلع الدين وغلبة الرجال.</p>
+<div class="ref">صحيح البخاري: 6369</div>
+</article>
+
+<article class="card">
+<h3>الصلاة على النبي</h3>
+<p class="dhikr">اللهم صل على محمد وعلى آل محمد، كما صليت على إبراهيم وعلى آل إبراهيم، إنك حميد مجيد. اللهم بارك على محمد وعلى آل محمد، كما باركت على إبراهيم وعلى آل إبراهيم، إنك حميد مجيد.</p>
+<div class="ref">صحيح البخاري: 3370، وصحيح مسلم: 406</div>
+</article>
+
+</div>
+
+<div class="panel">
+<h3>عداد التسبيح</h3>
+<p class="muted">اختر الذكر واضغط بعد كل مرة تقولها.</p>
+<div class="controls">
+<select id="tasbeehType">
+<option>سبحان الله</option>
+<option>الحمد لله</option>
+<option>الله أكبر</option>
+<option>أستغفر الله</option>
+<option>لا إله إلا الله</option>
+</select>
+<button id="countBtn">سبّح</button>
+<button id="resetCount" class="alt">تصفير</button>
+</div>
+<div class="counter" id="countValue">0</div>
+<div class="ref" id="countLabel">سبحان الله</div>
+</div>
+  </section>
 <section id="seerah"><h2>السيرة النبوية</h2><div class="panel"><p class="muted">محطات مرتبة من حياة النبي ﷺ. افتح كل محطة لقراءة ملخصها.</p>
 <details open><summary>المولد والنشأة</summary><p>وُلد محمد ﷺ بمكة في عام الفيل، ونشأ يتيم الأب ثم الأم، وكفله جده عبد المطلب ثم عمه أبو طالب. عُرف بين قومه بالصدق والأمانة.</p></details>
 <details><summary>نزول الوحي</summary><p>كان يتعبد في غار حراء، فنزل عليه جبريل عليه السلام بأول آيات سورة العلق: ﴿اقرأ باسم ربك الذي خلق﴾، وكانت بداية النبوة.</p></details>
