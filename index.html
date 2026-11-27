@@ -2230,32 +2230,79 @@ function openIslamicAi() {
 function closeIslamicAi() {
   document.getElementById("islamicAiWindow").style.display = "none";
 }
-async function askIslamicAi() {
+function askIslamicAi() {
   const q = document.getElementById("islamicAiQuestion").value.trim();
   const answer = document.getElementById("islamicAiAnswer");
-  const btn = document.getElementById("islamicAiSend");
 
   if (!q) {
     answer.textContent = "اكتب سؤالك أولًا.";
     return;
   }
 
-  btn.disabled = true;
-  answer.textContent = "جارٍ البحث عن إجابة...";
+  const questions = [
+    {
+      keywords: ["أركان الإسلام", "اركان الاسلام"],
+      title: "أركان الإسلام",
+      text: "قال رسول الله ﷺ: «بُنِيَ الإسلامُ على خمسٍ...» متفق عليه. وهي شهادة أن لا إله إلا الله وأن محمدًا رسول الله، وإقام الصلاة، وإيتاء الزكاة، وصوم رمضان، وحج البيت لمن استطاع إليه سبيلًا. المصدر: صحيح البخاري وصحيح مسلم."
+    },
+    {
+      keywords: ["أركان الإيمان", "اركان الايمان"],
+      title: "أركان الإيمان",
+      text: "قال النبي ﷺ في حديث جبريل: «أن تؤمن بالله وملائكته وكتبه ورسله واليوم الآخر وتؤمن بالقدر خيره وشره». المصدر: صحيح مسلم، كتاب الإيمان، حديث جبريل."
+    },
+    {
+      keywords: ["الوضوء"],
+      title: "الوضوء",
+      text: "قال الله تعالى: ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا قُمْتُمْ إِلَى الصَّلَاةِ فَاغْسِلُوا وُجُوهَكُمْ وَأَيْدِيَكُمْ إِلَى الْمَرَافِقِ وَامْسَحُوا بِرُءُوسِكُمْ وَأَرْجُلَكُمْ إِلَى الْكَعْبَيْنِ﴾ [المائدة: 6]."
+    },
+    {
+      keywords: ["الصلاة", "الصلوات الخمس"],
+      title: "الصلاة",
+      text: "الصلاة فرض على المسلم، قال الله تعالى: ﴿إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا﴾ [النساء: 103]."
+    },
+    {
+      keywords: ["بر الوالدين", "الوالدين"],
+      title: "بر الوالدين",
+      text: "قال الله تعالى: ﴿وَبِالْوَالِدَيْنِ إِحْسَانًا﴾ [الإسراء: 23]. وأمر الله بالإحسان إليهما وعدم قول ما يؤذيهما."
+    },
+    {
+      keywords: ["الغيبة"],
+      title: "الغيبة",
+      text: "قال الله تعالى: ﴿وَلَا يَغْتَبْ بَعْضُكُمْ بَعْضًا﴾ [الحجرات: 12]. والغيبة هي ذكرك أخاك بما يكره."
+    },
+    {
+      keywords: ["التوبة"],
+      title: "التوبة",
+      text: "قال الله تعالى: ﴿قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَى أَنْفُسِهِمْ لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ﴾ [الزمر: 53]."
+    },
+    {
+      keywords: ["الزكاة"],
+      title: "الزكاة",
+      text: "الزكاة ركن من أركان الإسلام، قال الله تعالى: ﴿وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ﴾ [البقرة: 43]. وتفاصيل وجوبها ومقاديرها تختلف بحسب المال وشروطه."
+    },
+    {
+      keywords: ["الصيام", "صوم رمضان"],
+      title: "الصيام",
+      text: "قال الله تعالى: ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ﴾ [البقرة: 183]. وصيام رمضان فرض على المسلم المستطيع."
+    },
+    {
+      keywords: ["الربا"],
+      title: "الربا",
+      text: "قال الله تعالى: ﴿وَأَحَلَّ اللَّهُ الْبَيْعَ وَحَرَّمَ الرِّبَا﴾ [البقرة: 275]. وتحتاج تفاصيل المعاملات المالية إلى معرفة صورتها كاملة."
+    }
+  ];
 
-  try {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({question: q})
-    });
+  const normalize = s => s.replace(/[أإآ]/g, "ا").replace(/ى/g, "ي");
+  const search = normalize(q);
+  const result = questions.find(item =>
+    item.keywords.some(word => search.includes(normalize(word)))
+  );
 
-    const data = await response.json();
-    answer.textContent = data.answer || data.error || "لم تصل إجابة.";
-  } catch (error) {
-    answer.textContent = "حدث خطأ في الاتصال، حاول مرة أخرى.";
+  if (result) {
+    answer.textContent = result.title + "\n\n" + result.text;
+  } else {
+    answer.textContent =
+      "لم نعثر على إجابة موثقة لهذا السؤال في المكتبة بعد؛ لا نريد تخمين الحكم. يُرجى سؤال عالم موثوق.";
   }
-
-  btn.disabled = false;
-}
+  }
 </script></body></html>
