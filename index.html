@@ -1945,4 +1945,100 @@ if ("serviceWorker" in navigator) {
       .catch(error => console.error("Service Worker:", error));
   });
 }
+</script><section id="khatmaSection" dir="rtl">
+  <h2>📖 ختمة القرآن الكريم</h2>
+  <p>تابع تقدمك في قراءة القرآن الكريم واحفظ آخر موضع وصلت إليه.</p>
+
+  <label>آخر سورة وصلت إليها:</label>
+  <input id="khatmaSurah" type="text" placeholder="مثال: سورة البقرة">
+
+  <label>رقم الآية:</label>
+  <input id="khatmaAyah" type="number" min="1" placeholder="رقم الآية">
+
+  <label>عدد الأجزاء التي أتممتها:</label>
+  <input id="khatmaJuz" type="number" min="0" max="30" value="0">
+
+  <div class="khatmaProgress">
+    <div id="khatmaBar"></div>
+  </div>
+
+  <p id="khatmaPercent">نسبة الإنجاز: 0%</p>
+  <button onclick="saveKhatma()">حفظ التقدم</button>
+  <p id="khatmaMessage"></p>
+</section>
+
+<style>
+#khatmaSection {
+  background: #073f3b;
+  color: white;
+  padding: 20px;
+  margin: 20px 10px;
+  border-radius: 15px;
+  text-align: right;
+}
+#khatmaSection input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  margin: 8px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+#khatmaSection label {
+  display: block;
+}
+.khatmaProgress {
+  height: 14px;
+  background: #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+#khatmaBar {
+  height: 100%;
+  width: 0%;
+  background: #d4af37;
+  transition: width .3s;
+}
+#khatmaSection button {
+  background: #d4af37;
+  color: #073f3b;
+  border: 0;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+</style>
+
+<script>
+function saveKhatma() {
+  const data = {
+    surah: document.getElementById("khatmaSurah").value,
+    ayah: document.getElementById("khatmaAyah").value,
+    juz: Math.min(30, Math.max(0, Number(document.getElementById("khatmaJuz").value)))
+  };
+
+  localStorage.setItem("quranKhatmaProgress", JSON.stringify(data));
+  updateKhatma(data);
+
+  document.getElementById("khatmaMessage").textContent =
+    "تم حفظ تقدمك بنجاح.";
+}
+
+function updateKhatma(data) {
+  const percent = Math.round((data.juz / 30) * 100);
+  document.getElementById("khatmaSurah").value = data.surah || "";
+  document.getElementById("khatmaAyah").value = data.ayah || "";
+  document.getElementById("khatmaJuz").value = data.juz || 0;
+  document.getElementById("khatmaBar").style.width = percent + "%";
+  document.getElementById("khatmaPercent").textContent =
+    "نسبة الإنجاز: " + percent + "%";
+}
+
+const savedKhatma = localStorage.getItem("quranKhatmaProgress");
+if (savedKhatma) {
+  updateKhatma(JSON.parse(savedKhatma));
+}
 </script></body></html>
