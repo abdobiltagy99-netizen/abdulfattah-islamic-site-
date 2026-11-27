@@ -356,16 +356,44 @@ loadSiteSettings();
 });
   document.getElementById("saveSiteSettings").onclick = async () => {
   const status = document.getElementById("settingsStatus");
+  const file = document.getElementById("editLogo").files[0];
+
   status.textContent = "جارٍ الحفظ...";
 
   try {
+    let logoUrl = document.querySelector("#siteHeader img").src;
+
+    if (file) {
+      const image = new Image();
+      const tempUrl = URL.createObjectURL(file);
+
+      await new Promise((resolve, reject) => {
+        image.onload = resolve;
+        image.onerror = reject;
+        image.src = tempUrl;
+      });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = 200;
+      canvas.height = 200;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0, 200, 200);
+
+      logoUrl = canvas.toDataURL("image/jpeg", 0.45);
+      URL.revokeObjectURL(tempUrl);
+    }
+
     await db.collection("siteContent").doc("settings").set({
       siteName: document.getElementById("editSiteName").value,
       description: document.getElementById("editDescription").value,
       primaryColor: document.getElementById("editPrimaryColor").value,
       secondaryColor: document.getElementById("editSecondaryColor").value,
-logoUrl: document.getElementById("editLogo").value.trim()
+      logoUrl: logoUrl
     }, { merge: true });
+
+    document.querySelector("#siteHeader img").src = logoUrl;
+    document.getElementById("logoPreview").src = logoUrl;
 
     status.textContent = "تم حفظ الإعدادات بنجاح.";
   } catch (error) {
