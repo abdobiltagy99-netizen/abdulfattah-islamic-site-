@@ -455,6 +455,92 @@ footer {
   nav {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  /* اللمسات النهائية للتصميم الإسلامي */
+body {
+  background:
+    radial-gradient(circle at 10% 15%, #e8dcc0 0 1px, transparent 2px),
+    radial-gradient(circle at 90% 80%, #e8dcc0 0 1px, transparent 2px),
+    #f8f3e7;
+  background-size: 35px 35px;
+}
+
+#globalSearch {
+  background: #fffdf7;
+  border: 2px solid #c9a24e !important;
+  border-radius: 14px !important;
+  box-shadow: 0 4px 15px #493c2012;
+}
+
+.panel {
+  background: linear-gradient(145deg, #fffdf8, #f7f0df);
+  border: 1px solid #d8c69a;
+  border-radius: 18px;
+}
+
+.hadith {
+  border-right: 4px solid #c9a24e;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+section > h3 {
+  color: #15563a;
+  border-right: 3px solid #c9a24e;
+  padding-right: 10px;
+}
+
+details[open] {
+  border-color: #c9a24e;
+  box-shadow: 0 3px 12px #493c2010;
+}
+
+button {
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+button.alt {
+  background: #8a7546;
+  color: white;
+}
+
+.ayah {
+  border-bottom: 1px solid #d8c69a;
+  padding: 14px 8px;
+}
+
+.ref {
+  color: #89764b;
+}
+
+.pill {
+  border: 1px solid #d8c69a;
+}
+
+#siteHeader {
+  position: relative;
+  overflow: hidden;
+}
+
+#siteHeader::before {
+  content: "۞";
+  position: absolute;
+  top: 8px;
+  right: 18px;
+  color: #d6b96d;
+  font-size: 32px;
+  opacity: .55;
+}
+
+#siteHeader::after {
+  content: "۞";
+  position: absolute;
+  top: 8px;
+  left: 18px;
+  color: #d6b96d;
+  font-size: 32px;
+  opacity: .55;
+  }
   }</style></head>
 <div id="adminEntry" style="display:none;text-align:center;padding:20px">
   <button id="adminLogin">دخول لوحة التحكم</button>
