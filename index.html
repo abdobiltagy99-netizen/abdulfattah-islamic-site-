@@ -1113,22 +1113,34 @@ if (savedKhatma) {
 
 </div>
 
-<div class="panel">
-<h3>عداد التسبيح</h3>
-<p class="muted">اختر الذكر واضغط بعد كل مرة تقولها.</p>
-<div class="controls">
-<select id="tasbeehType">
-<option>سبحان الله</option>
-<option>الحمد لله</option>
-<option>الله أكبر</option>
-<option>أستغفر الله</option>
-<option>لا إله إلا الله</option>
-</select>
-<button id="countBtn">سبّح</button>
-<button id="resetCount" class="alt">تصفير</button>
-</div>
-<div class="counter" id="countValue">0</div>
-<div class="ref" id="countLabel">سبحان الله</div>
+<div class="panel" id="tasbeehPanel">
+  <h3>عداد التسبيح</h3>
+
+  <select id="tasbeehType">
+    <option>سبحان الله</option>
+    <option>الحمد لله</option>
+    <option>الله أكبر</option>
+    <option>أستغفر الله</option>
+    <option>لا إله إلا الله</option>
+  </select>
+
+  <div class="counter" id="countValue">0</div>
+  <div class="ref" id="countLabel">سبحان الله</div>
+
+  <label>الهدف اليومي</label>
+  <select id="tasbeehGoal">
+    <option value="33">33 مرة</option>
+    <option value="99">99 مرة</option>
+    <option value="100">100 مرة</option>
+    <option value="1000">1000 مرة</option>
+  </select>
+
+  <div id="tasbeehProgress">0 من 33</div>
+
+  <div class="controls">
+    <button id="countBtn">سبّح</button>
+    <button id="resetCount" class="alt">تصفير</button>
+  </div>
 </div>
   </section>
 <section id="seerah"><h2>السيرة النبوية</h2><div class="panel"><p class="muted">محطات مرتبة من حياة النبي ﷺ. افتح كل محطة لقراءة ملخصها.</p>
