@@ -2239,7 +2239,11 @@ if ("serviceWorker" in navigator) {
   style="padding:10px;background:#d4af37;color:#073f3b;border-radius:8px;cursor:pointer">
   الصدقة</span>
 </div>
+<button id="islamicAiSend" onclick="askIslamicAi()">
+  إرسال السؤال
+</button>
 
+<div id="islamicAiAnswer" style="white-space:pre-wrap;line-height:1.9;margin-top:15px"></div>
 <script>
 function openIslamicAi() {
   document.getElementById("islamicAiWindow").style.display = "flex";
