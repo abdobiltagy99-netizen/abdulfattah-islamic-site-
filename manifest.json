@@ -1,0 +1,13 @@
+{
+  "id": "abdulfattah-islamic",
+  "name": "موقع عبد الفتاح الإسلامي",
+  "short_name": "المكتبة الإسلامية",
+  "description": "مكتبة إسلامية للقرآن الكريم والأحاديث والأذكار والعلوم الشرعية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#073f3b",
+  "theme_color": "#073f3b"
+}
