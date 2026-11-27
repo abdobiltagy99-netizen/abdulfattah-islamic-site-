@@ -1442,6 +1442,11 @@ async function copyShareText(text) {
 }
 
 // إضافة زر مشاركة تلقائي للمحتوى
+  function getCleanContentText(item) {
+  const copy = item.cloneNode(true);
+  copy.querySelectorAll("button").forEach(button => button.remove());
+  return copy.innerText.trim();
+  }
 document.querySelectorAll(
   ".ayah, .hadith, .dhikr, #seerah .card, #learning .card, #books .card"
 ).forEach(item => {
@@ -1455,7 +1460,7 @@ document.querySelectorAll(
     "display:block;margin:10px 0;background:#0b563b;color:#fff;border:1px solid #c9a24e;border-radius:9px;padding:8px 18px;";
 
   button.onclick = () => {
-    const text = item.innerText.trim() +
+    const text = getCleanContentText(item) +
       "\n\nمن الموقع الإسلامي: " + location.href;
     shareContent(text);
   };
@@ -1476,7 +1481,7 @@ document.querySelectorAll(
       "display:block;margin:10px 0;background:#0b563b;color:white;border:1px solid #c9a24e;padding:8px 18px;border-radius:9px;";
 
     button.onclick = () => shareContent(
-      item.innerText.trim() + "\n\nمن الموقع الإسلامي: " + location.href
+      getCleanContentText(item) + "\n\nمن الموقع الإسلامي: " + location.href
     );
 
     item.appendChild(button);
@@ -1757,11 +1762,7 @@ function addImageShareButtons() {
     imageButton.style.cssText =
       "display:inline-block;margin:10px 8px;background:#8a6d2f;color:white;border:1px solid #c9a24e;border-radius:9px;padding:8px 18px;";
 
-    imageButton.onclick = () => {
-      const text = item.innerText
-        .replace(/مشاركة كصورة/g, "")
-        .replace(/مشاركة/g, "")
-        .trim();
+    const text = getCleanContentText(item);
 
       shareAsImage(text);
     };
