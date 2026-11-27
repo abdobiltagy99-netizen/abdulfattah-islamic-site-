@@ -2221,15 +2221,23 @@ if ("serviceWorker" in navigator) {
     <div style="margin:12px 0;color:#073f3b;font-weight:bold">
   أسئلة شائعة:
 </div>
+
 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما أركان الإسلام؟'">أركان الإسلام</button>
-  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما حكم الصلاة؟'">الصلاة</button>
-  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما حكم الغيبة؟'">الغيبة</button>
-  <button type="button" onclick="document.getElementById('islamicAiQuestion').value='ما فضل الصدقة؟'">الصدقة</button>
-</div>
-    <button id="islamicAiSend" onclick="askIslamicAi()">إرسال السؤال</button>
-    <div id="islamicAiAnswer"></div>
-  </div>
+  <span onclick="document.getElementById('islamicAiQuestion').value='ما أركان الإسلام؟'"
+  style="padding:10px;background:#d4af37;color:#073f3b;border-radius:8px;cursor:pointer">
+  أركان الإسلام</span>
+
+  <span onclick="document.getElementById('islamicAiQuestion').value='ما حكم الصلاة؟'"
+  style="padding:10px;background:#d4af37;color:#073f3b;border-radius:8px;cursor:pointer">
+  الصلاة</span>
+
+  <span onclick="document.getElementById('islamicAiQuestion').value='ما حكم الغيبة؟'"
+  style="padding:10px;background:#d4af37;color:#073f3b;border-radius:8px;cursor:pointer">
+  الغيبة</span>
+
+  <span onclick="document.getElementById('islamicAiQuestion').value='ما فضل الصدقة؟'"
+  style="padding:10px;background:#d4af37;color:#073f3b;border-radius:8px;cursor:pointer">
+  الصدقة</span>
 </div>
 
 <script>
