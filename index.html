@@ -1215,11 +1215,25 @@ document.getElementById("adminLogout").onclick = () => auth.signOut();
 const QAPI='https://api.alquran.cloud/v1', $=id=>document.getElementById(id);
 async function getJSON(url){const r=await fetch(url);if(!r.ok)throw Error('تعذر الاتصال بمصدر القرآن');return r.json()}
 async function initSurahs(){try{const j=await getJSON(QAPI+'/surah');const s=$('surahSelect');s.innerHTML='';j.data.forEach(x=>{const o=document.createElement('option');o.value=x.number;o.textContent=x.number+' - '+x.name+' ('+x.numberOfAyahs+' آية)';s.append(o)});$('quranStatus').textContent='تم تحميل فهرس السور: '+j.data.length+' سورة.';loadSurah()}catch(e){$('quranStatus').textContent='تعذر تحميل السور. تحقق من الإنترنت ثم أعد تحميل الصفحة.'}}
-async function loadSurah(){const n=$('surahSelect').value;if(!n)return;$('quranStatus').textContent='جارٍ تحميل السورة...';$('ayahList').innerHTML='';try{const j=await getJSON(QAPI+'/surah/'+n+'/quran-uthmani');const s=j.data;$('surahMeta').textContent=s.name+' · '+s.numberOfAyahs+' آية';s.ayahs.forEach(a=>{const d=document.createElement('div');d.className='ayah';d.textContent=a.text+' ۝'+a.numberInSurah;$('ayahList').append(d)});$('quranStatus').textContent='تم عرض السورة.'}catch(e){$('quranStatus').textContent='تعذر تحميل السورة؛ حاول مرة أخرى.'}}
+async function loadSurah(){const n=$('surahSelect').value;if(!n)return;$('quranStatus').textContent='جارٍ تحميل السورة...';$('ayahList').innerHTML='';try{const j=await getJSON(QAPI+'/surah/'+n+'/quran-uthmani');const s=j.data;$('surahMeta').textContent=s.name+' · '+s.numberOfAyahs+' آية';s.ayahs.forEach(a=>{const d=document.createElement('div');d.className='ayah';d.append(document.createTextNode(a.text + ' '));
+
+const mark = document.createElement('span');
+mark.style.cssText = 'display:inline-flex;position:relative;align-items:center;justify-content:center;vertical-align:middle;margin:0 3px;';
+
+const symbol = document.createElement('span');
+symbol.textContent = '۝';
+symbol.style.cssText = 'font-size:1.5em;';
+
+const number = document.createElement('span');
+number.textContent = a.numberInSurah;
+number.style.cssText = 'position:absolute;font-size:0.42em;font-weight:bold;';
+
+mark.append(symbol, number);
+d.append(mark);$('ayahList').append(d)});$('quranStatus').textContent='تم عرض السورة.'}catch(e){$('quranStatus').textContent='تعذر تحميل السورة؛ حاول مرة أخرى.'}}
 $('loadSurah').addEventListener('click',loadSurah);$('surahSelect').addEventListener('change',loadSurah);
 const hadiths=[
 ['إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى.','صحيح البخاري: 1، وصحيح مسلم: 1907'],
-['من كان يؤمن بالله واليوم الآخر فليقل خيرًا أو ليصمت.','صحيح البخاري: 6018، وصحيح مسلم: 47'],
+['من كان يؤمن بالله واليوم الآخر فليقل خيرًا أو ليصمت.','صحيح البخاري: 6018، وصحيح مسلم: 47']
 ['لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه.','صحيح البخاري: 13، وصحيح مسلم: 45'],
 ['المسلم من سلم المسلمون من لسانه ويده.','صحيح البخاري: 10، وصحيح مسلم: 40'],
 ['الدين النصيحة.','صحيح مسلم: 55'],
