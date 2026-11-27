@@ -2143,4 +2143,119 @@ if ("serviceWorker" in navigator) {
       "text-align:center;text-decoration:none;font-weight:bold;";
   });
 })();
+</script><style>
+#islamicAiButton {
+  position: fixed;
+  bottom: 20px;
+  left: 18px;
+  z-index: 99999;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  background: #073f3b;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 0 3px 12px #0005;
+  cursor: pointer;
+}
+#islamicAiWindow {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: #0008;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+#islamicAiBox {
+  background: #fffdf5;
+  color: #073f3b;
+  width: 100%;
+  max-width: 450px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 18px;
+  padding: 18px;
+  border: 2px solid #d4af37;
+  direction: rtl;
+}
+#islamicAiAnswer {
+  white-space: pre-wrap;
+  line-height: 1.9;
+  margin-top: 15px;
+}
+#islamicAiQuestion {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 90px;
+  padding: 12px;
+  border: 1px solid #d4af37;
+  border-radius: 10px;
+  direction: rtl;
+}
+#islamicAiSend {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: #073f3b;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  font-weight: bold;
+}
+</style>
+
+<button id="islamicAiButton" onclick="openIslamicAi()">
+  <span style="font-size:27px">🧔</span><br>اسأل شيخًا
+</button>
+
+<div id="islamicAiWindow">
+  <div id="islamicAiBox">
+    <button onclick="closeIslamicAi()" style="float:left">إغلاق ✕</button>
+    <h3>المساعد الإسلامي</h3>
+    <p>اكتب سؤالك الديني وسنحاول الإجابة بالدليل والمصدر.</p>
+    <textarea id="islamicAiQuestion" placeholder="اكتب سؤالك هنا..."></textarea>
+    <button id="islamicAiSend" onclick="askIslamicAi()">إرسال السؤال</button>
+    <div id="islamicAiAnswer"></div>
+  </div>
+</div>
+
+<script>
+function openIslamicAi() {
+  document.getElementById("islamicAiWindow").style.display = "flex";
+}
+function closeIslamicAi() {
+  document.getElementById("islamicAiWindow").style.display = "none";
+}
+async function askIslamicAi() {
+  const q = document.getElementById("islamicAiQuestion").value.trim();
+  const answer = document.getElementById("islamicAiAnswer");
+  const btn = document.getElementById("islamicAiSend");
+
+  if (!q) {
+    answer.textContent = "اكتب سؤالك أولًا.";
+    return;
+  }
+
+  btn.disabled = true;
+  answer.textContent = "جارٍ البحث عن إجابة...";
+
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({question: q})
+    });
+
+    const data = await response.json();
+    answer.textContent = data.answer || data.error || "لم تصل إجابة.";
+  } catch (error) {
+    answer.textContent = "حدث خطأ في الاتصال، حاول مرة أخرى.";
+  }
+
+  btn.disabled = false;
+}
 </script></body></html>
