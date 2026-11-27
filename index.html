@@ -270,6 +270,19 @@ footer{
 
   <div style="background:white;padding:18px;border-radius:14px;margin:15px 0">
     <h3>هوية الموقع</h3>
+    <div style="margin:15px 0;padding:15px;background:#f4f8f6;border-radius:12px">
+  <label style="font-weight:bold">شعار الموقع</label>
+  <p style="font-size:13px;color:#637873">اكتب اسم صورة الشعار الموجودة في ملفات GitHub.</p>
+
+  <input id="editLogo" type="text"
+    value="./1000037383.jpg"
+    placeholder="مثال: ./logo.png"
+    style="width:100%;padding:12px;margin:10px 0">
+
+  <img id="logoPreview" src="./1000037383.jpg"
+    alt="معاينة الشعار"
+    style="display:block;width:100px;height:100px;object-fit:contain;margin:12px auto;background:#e7f1ed;border-radius:12px">
+    </div>
 
     <label>اسم الموقع</label>
     <input id="editSiteName" type="text" style="display:block;width:100%;padding:12px;margin:8px 0 15px;border:1px solid #ccc;border-radius:8px">
@@ -320,6 +333,9 @@ async function loadSiteSettings() {
     if (doc.exists) {
       const data = doc.data();
       document.getElementById("editSiteName").value = data.siteName || "";
+      document.getElementById("editLogo").value = data.logoUrl || "./1000037383.jpg";
+document.getElementById("logoPreview").src = data.logoUrl || "./1000037383.jpg";
+document.querySelector("#siteHeader img").src = data.logoUrl || "./1000037383.jpg";
       document.getElementById("siteNameDisplay").textContent = data.siteName || "";
       document.getElementById("siteDescriptionDisplay").textContent = data.description || "";
       document.documentElement.style.setProperty("--deep", data.primaryColor || "#063b38");
@@ -333,6 +349,9 @@ document.documentElement.style.setProperty("--teal", data.secondaryColor || "#07
   }
 }
 loadSiteSettings();
+  document.getElementById("editLogo").addEventListener("input", function () {
+  document.getElementById("logoPreview").src = this.value;
+});
   document.getElementById("saveSiteSettings").onclick = async () => {
   const status = document.getElementById("settingsStatus");
   status.textContent = "جارٍ الحفظ...";
@@ -342,7 +361,8 @@ loadSiteSettings();
       siteName: document.getElementById("editSiteName").value,
       description: document.getElementById("editDescription").value,
       primaryColor: document.getElementById("editPrimaryColor").value,
-      secondaryColor: document.getElementById("editSecondaryColor").value
+      secondaryColor: document.getElementById("editSecondaryColor").value,
+logoUrl: document.getElementById("editLogo").value.trim()
     }, { merge: true });
 
     status.textContent = "تم حفظ الإعدادات بنجاح.";
