@@ -1445,12 +1445,11 @@ async function shareAsImage(text) {
 
   // خلفية متدرجة
   const bg = ctx.createLinearGradient(0, 0, 1080, 1080);
-  bg.addColorStop(0, "#062d27");
-  bg.addColorStop(0.5, "#0b513d");
-  bg.addColorStop(1, "#031f1b");
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, 1080, 1080);
-
+bg.addColorStop(0, "#031b19");
+bg.addColorStop(0.45, "#075447");
+bg.addColorStop(1, "#012b27");
+ctx.fillStyle = bg;
+ctx.fillRect(0, 0, 1080, 1080);
   // زخارف هندسية إسلامية بنجوم ثمانية
 ctx.globalAlpha = 0.16;
 ctx.strokeStyle = "#e7c879";
@@ -1488,15 +1487,21 @@ ctx.globalAlpha = 1;
   // الإطار الخارجي
   ctx.strokeStyle = "#d9b45f";
   ctx.lineWidth = 8;
-  ctx.strokeRect(28, 28, 1024, 1024);
+  ctx.beginPath();
+ctx.roundRect(22, 22, 1036, 1036, 42);
+ctx.stroke();
 
   ctx.strokeStyle = "#f4dfaa";
   ctx.lineWidth = 2;
-  ctx.strokeRect(45, 45, 990, 990);
+  ctx.beginPath();
+ctx.roundRect(40, 40, 1000, 1000, 34);
+ctx.stroke();
 
   ctx.strokeStyle = "#d9b45f";
   ctx.lineWidth = 3;
-  ctx.strokeRect(65, 65, 950, 950);
+  ctx.beginPath();
+ctx.roundRect(58, 58, 964, 964, 26);
+ctx.stroke();
 
   // زخارف الزوايا
   function corner(x, y, sx, sy) {
@@ -1533,17 +1538,34 @@ ctx.globalAlpha = 1;
 
   // لوحة المحتوى
   ctx.fillStyle = "rgba(0, 20, 15, 0.48)";
-  ctx.fillRect(105, 245, 870, 590);
+ctx.beginPath();
+ctx.roundRect(90, 230, 900, 620, 35);
+ctx.fill();
+
+ctx.strokeStyle = "#d9b45f";
+ctx.lineWidth = 4;
+ctx.stroke();
 
   ctx.strokeStyle = "#c9a24e";
   ctx.lineWidth = 3;
-  ctx.strokeRect(105, 245, 870, 590);
+  ctx.fillStyle = "rgba(1, 24, 21, 0.82)";
+ctx.beginPath();
+ctx.roundRect(90, 230, 900, 620, 35);
+ctx.fill();
+
+ctx.strokeStyle = "#d9b45f";
+ctx.lineWidth = 4;
+ctx.beginPath();
+ctx.roundRect(90, 230, 900, 620, 35);
+ctx.stroke();
 
   // عنوان الموقع
-  ctx.fillStyle = "#f2d58e";
-  ctx.font = "bold 48px Tahoma";
-  ctx.textAlign = "center";
-  ctx.direction = "rtl";
+  ctx.fillStyle = "#e8c778";
+ctx.font = "bold 52px Tahoma";
+ctx.textAlign = "center";
+ctx.direction = "rtl";
+ctx.shadowColor = "rgba(217,180,95,0.35)";
+ctx.shadowBlur = 12;
 
   // زخرفة فاصلة
   ctx.strokeStyle = "#d9b45f";
@@ -1562,6 +1584,9 @@ ctx.globalAlpha = 1;
   ctx.restore();
 
   // تجهيز النص
+  ctx.shadowColor = "rgba(0,0,0,0)";
+ctx.shadowBlur = 0;
+ctx.fillStyle = "#fff8e8";
   ctx.fillStyle = "#fff8e8";
   ctx.textAlign = "center";
   ctx.direction = "rtl";
@@ -1608,34 +1633,17 @@ ctx.globalAlpha = 1;
   });
 
   // التذييل
-  ctx.fillStyle = "#f2d58e";
-  ctx.font = "bold 30px Tahoma";
-
-  ctx.font = "24px Tahoma";
-  ctx.font = "24px Tahoma";
+ctx.font = "bold 22px Tahoma";
 ctx.direction = "rtl";
-ctx.textAlign = "right";
-
-const before = "﴿ قُلْ يَجْمَعُ بَيْنَنَا رَبُّنَا ثُمَّ يَفْتَحُ بَيْنَنَا بِالْحَقِّ وَهُوَ ";
-const word = "الْفَتَّاحُ";
-const after = " الْعَلِيمُ ﴾";
-
-const w1 = ctx.measureText(before).width;
-const w2 = ctx.measureText(word).width;
-const w3 = ctx.measureText(after).width;
-
-let x = 540 + (w1 + w2 + w3) / 2;
+ctx.textAlign = "center";
 
 ctx.fillStyle = "#fff8e8";
-ctx.fillText(before, x, 965);
-x -= w1;
-
-ctx.fillStyle = "#d9b45f";
-ctx.fillText(word, x, 965);
-x -= w2;
-
-ctx.fillStyle = "#fff8e8";
-ctx.fillText(after, x, 965);
+ctx.fillText(
+  "﴿ قُلْ يَجْمَعُ بَيْنَنَا رَبُّنَا ثُمَّ يَفْتَحُ بَيْنَنَا بِالْحَقِّ وَهُوَ الْفَتَّاحُ الْعَلِيمُ ﴾",
+  540,
+  965
+);
+  
 
   // إنشاء الصورة ومشاركتها
   canvas.toBlob(async blob => {
