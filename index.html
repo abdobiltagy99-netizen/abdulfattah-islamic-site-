@@ -1749,6 +1749,7 @@ function downloadImage(blob) {
   URL.revokeObjectURL(url);
   }
   // إضافة زر مشاركة كصورة
+
 function addImageShareButtons() {
   document.querySelectorAll(
     ".ayah, .hadith, .dhikr, #seerah .card, #learning .card, #books .card"
@@ -1762,15 +1763,14 @@ function addImageShareButtons() {
     imageButton.style.cssText =
       "display:inline-block;margin:10px 8px;background:#8a6d2f;color:white;border:1px solid #c9a24e;border-radius:9px;padding:8px 18px;";
 
-    const text = getCleanContentText(item);
-
+    imageButton.onclick = () => {
+      const text = getCleanContentText(item);
       shareAsImage(text);
     };
 
     item.appendChild(imageButton);
   });
-}
-
+  }
 addImageShareButtons();
 
 const imageShareObserver = new MutationObserver(addImageShareButtons);
