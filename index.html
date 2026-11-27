@@ -1364,4 +1364,76 @@ document.getElementById("saveSections").onclick = async () => {
 };
 
 loadSections();
+  // ميزة مشاركة محتوى الموقع
+async function shareContent(text, title = "مشاركة من موقعي الإسلامي") {
+  const data = { title, text };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(data);
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        await copyShareText(text);
+      }
+    }
+  } else {
+    await copyShareText(text);
+  }
+}
+
+async function copyShareText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("تم نسخ المحتوى، يمكنك مشاركته في أي تطبيق.");
+  } catch (error) {
+    prompt("انسخ المحتوى لمشاركته:", text);
+  }
+}
+
+// إضافة زر مشاركة تلقائي للمحتوى
+document.querySelectorAll(
+  ".ayah, .hadith, .dhikr, #seerah .card, #learning .card, #books .card"
+).forEach(item => {
+  if (item.querySelector(".share-content-btn")) return;
+
+  const button = document.createElement("button");
+  button.className = "share-content-btn";
+  button.textContent = "مشاركة";
+  button.type = "button";
+  button.style.cssText =
+    "display:block;margin:10px 0;background:#0b563b;color:#fff;border:1px solid #c9a24e;border-radius:9px;padding:8px 18px;";
+
+  button.onclick = () => {
+    const text = item.innerText.trim() +
+      "\n\nمن الموقع الإسلامي: " + location.href;
+    shareContent(text);
+  };
+
+  item.appendChild(button);
+});
+  const shareObserver = new MutationObserver(() => {
+  document.querySelectorAll(
+    ".ayah, .hadith, .dhikr, #seerah .card, #learning .card, #books .card"
+  ).forEach(item => {
+    if (item.querySelector(".share-content-btn")) return;
+
+    const button = document.createElement("button");
+    button.className = "share-content-btn";
+    button.textContent = "مشاركة";
+    button.type = "button";
+    button.style.cssText =
+      "display:block;margin:10px 0;background:#0b563b;color:white;border:1px solid #c9a24e;padding:8px 18px;border-radius:9px;";
+
+    button.onclick = () => shareContent(
+      item.innerText.trim() + "\n\nمن الموقع الإسلامي: " + location.href
+    );
+
+    item.appendChild(button);
+  });
+});
+
+shareObserver.observe(document.querySelector("main"), {
+  childList: true,
+  subtree: true
+});
 </script></body></html>
