@@ -258,6 +258,203 @@ footer{
   .controls>*{
     max-width:100%;
   }
+  }/* التصميم الإسلامي الأخضر والذهبي */
+:root {
+  --deep: #073b2b;
+  --teal: #0b5b40;
+  --gold: #c9a24e;
+  --paper: #f8f3e7;
+  --mint: #eee7d4;
+  --ink: #263c30;
+  --line: #d8c69a;
+}
+
+body {
+  background: #f5efdf;
+  color: var(--ink);
+}
+
+header {
+  background:
+    radial-gradient(circle at 50% 0%, #28704c, transparent 65%),
+    linear-gradient(135deg, #062d22, #0b563b, #073324);
+  border-bottom: 5px solid var(--gold);
+  padding: 35px 14px 27px;
+  box-shadow: 0 8px 25px #102d201f;
+}
+
+.brand {
+  color: #f5d995;
+  text-shadow: 0 2px 8px #0005;
+  font-size: clamp(30px, 6vw, 45px);
+}
+
+.sub {
+  color: #f1e4c2;
+}
+
+header img {
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  padding: 5px;
+  background: #ffffff18;
+}
+
+nav {
+  gap: 8px;
+  margin-top: 20px;
+}
+
+nav a {
+  background: #ffffff12;
+  border: 1px solid #d6b96d;
+  border-radius: 7px;
+  color: #fff2cf;
+  padding: 7px 14px;
+}
+
+nav a:hover {
+  background: var(--gold);
+  color: #173b29;
+}
+
+.wrap {
+  max-width: 1200px;
+  padding: 22px 15px;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, #073b2b, #145b3e);
+  color: #fff;
+  border: 2px solid var(--gold);
+  border-radius: 20px;
+  padding: 45px 20px;
+  text-align: center;
+  box-shadow: 0 8px 25px #173c3025;
+}
+
+.hero::before,
+.hero::after {
+  content: "❖";
+  position: absolute;
+  color: #d6b96d;
+  font-size: 65px;
+  opacity: .35;
+}
+
+.hero::before {
+  top: 5px;
+  right: 15px;
+}
+
+.hero::after {
+  bottom: 5px;
+  left: 15px;
+}
+
+.hero .verse {
+  color: #f5d995;
+  font-size: clamp(25px, 5vw, 36px);
+}
+
+.hero p {
+  color: #f5ead0;
+}
+
+section {
+  margin: 38px 0;
+}
+
+section > h2 {
+  color: #174b32;
+  border-right: 5px solid var(--gold);
+  border-bottom: 1px solid var(--line);
+  padding: 8px 13px 10px;
+  font-size: 25px;
+}
+
+.panel,
+.card {
+  background: #fffdf7;
+  border: 1px solid #d8c69a;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px #493c2010;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.card::before {
+  content: "";
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: -20px -20px 17px;
+}
+
+.card h3 {
+  color: #15563a;
+}
+
+.hadith {
+  background: #f8f3e7;
+  border: 1px solid #d8c69a;
+}
+
+.dhikr,
+.hadithText,
+.ayah {
+  color: #15563a;
+}
+
+button {
+  background: #0b563b;
+  border: 1px solid var(--gold);
+}
+
+button:hover {
+  background: #073b2b;
+}
+
+.pill {
+  background: #eee5ce;
+  color: #15563a;
+}
+
+.counter {
+  background: #eee7d4;
+  color: #15563a;
+}
+
+details {
+  background: #f8f3e7;
+  border-color: #d8c69a;
+}
+
+summary {
+  color: #15563a;
+}
+
+footer {
+  background: #073324;
+  border-top: 4px solid var(--gold);
+  color: #f5e8c8;
+}
+
+@media(max-width:600px) {
+  .hero {
+    padding: 35px 15px;
+  }
+
+  nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   }</style></head>
 <div id="adminEntry" style="display:none;text-align:center;padding:20px">
   <button id="adminLogin">دخول لوحة التحكم</button>
