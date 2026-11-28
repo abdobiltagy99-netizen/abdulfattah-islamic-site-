@@ -1530,21 +1530,19 @@ async function shareQuizCertificate() {
   try {
     await document.fonts.ready;
 
-const canvas = await html2canvas(certificate, {
-  scale: 2,
-  backgroundColor: "#fffdf3",
-  useCORS: true,
-  onclone: (doc) => {
-    const cert = doc.getElementById("quizCertificate");
-    cert.style.direction = "rtl";
-    cert.style.textAlign = "center";
-    cert.style.fontFamily = "Tahoma, Arial, sans-serif";
-  }
+    const canvas = await html2canvas(certificate, {
+      scale: 2,
       backgroundColor: "#fffdf3",
-      scale: 2
+      useCORS: true,
+      onclone: (doc) => {
+        const cert = doc.getElementById("quizCertificate");
+        cert.style.direction = "rtl";
+        cert.style.textAlign = "center";
+        cert.style.fontFamily = "Tahoma, Arial, sans-serif";
+      }
     });
 
-    canvas.toBlob(async blob => {
+    canvas.toBlob(async (blob) => {
       if (!blob) return;
 
       const file = new File(
@@ -1566,10 +1564,11 @@ const canvas = await html2canvas(certificate, {
         URL.revokeObjectURL(link.href);
       }
     }, "image/png");
+
   } catch (error) {
     alert("تعذر إنشاء الصورة أو مشاركتها.");
   }
-  }</script>
+  }
 <section id="myYouTubeVideos" style="padding:20px;text-align:center">
   <h2>فيديوهاتي على يوتيوب</h2>
   <p>الفيديوهات الطويلة والشورتس</p>
