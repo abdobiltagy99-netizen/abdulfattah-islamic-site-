@@ -1364,6 +1364,7 @@ if (savedKhatma) {
   <p>مقدمة من: موقع عبد الفتاح الإسلامي</p>
   <p id="certificateDate"></p>
   <button onclick="window.print()">طباعة الشهادة</button>
+<button onclick="shareQuizCertificate()">مشاركة الشهادة كصورة</button>
       </div>
       <button onclick="startIslamicQuiz()">أعد المسابقة</button>
     </div>
@@ -1518,7 +1519,46 @@ if (quizPoints === 10) {
       }
   }
 }
-</script>
+async function shareQuizCertificate() {
+  const certificate = document.getElementById("quizCertificate");
+
+  if (!window.html2canvas) {
+    alert("تعذر إنشاء الصورة حاليًا.");
+    return;
+  }
+
+  try {
+    const canvas = await html2canvas(certificate, {
+      backgroundColor: "#fffdf3",
+      scale: 2
+    });
+
+    canvas.toBlob(async blob => {
+      if (!blob) return;
+
+      const file = new File(
+        [blob],
+        "شهادة-المسابقة.png",
+        { type: "image/png" }
+      );
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "شهادة المسابقة الإسلامية"
+        });
+      } else {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "شهادة-المسابقة.png";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
+    }, "image/png");
+  } catch (error) {
+    alert("تعذر إنشاء الصورة أو مشاركتها.");
+  }
+  }</script>
 <section id="myYouTubeVideos" style="padding:20px;text-align:center">
   <h2>فيديوهاتي على يوتيوب</h2>
   <p>الفيديوهات الطويلة والشورتس</p>
@@ -2712,4 +2752,4 @@ function askIslamicAi() {
   }
   }
 </script></div>
-</div></body></html>
+</div><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script></body></html>
