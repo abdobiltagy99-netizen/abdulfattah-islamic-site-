@@ -1599,7 +1599,7 @@ function nextIslamicQuestion(){
 
     const certificate=document.getElementById("quizCertificate");
 
-    if(quizPoints === quizTotalQuestions){
+    if(quizPoints >= quizTotalQuestions * 0.8){
       document.getElementById("certificateName").textContent=
         document.getElementById("quizPlayerName").value.trim() || "المتسابق";
 
