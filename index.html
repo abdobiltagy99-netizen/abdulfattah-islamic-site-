@@ -1523,8 +1523,9 @@ async function shareQuizCertificate() {
   const certificate = document.getElementById("quizCertificate");
 
   try {
-    await document.fonts.ready;
-
+    const arabicFont = new FontFace("ArabicCertificate", "url(https://fonts.gstatic.com/s/cairo/v28/SLXGc1nY6HkvalIkTpu0xg.woff2)");
+await arabicFont.load();
+document.fonts.add(arabicFont);
     const canvas = await html2canvas(certificate, {
       scale: 3,
       backgroundColor: "#fffdf3",
@@ -1533,7 +1534,7 @@ async function shareQuizCertificate() {
         const cert = doc.getElementById("quizCertificate");
         cert.style.direction = "rtl";
         cert.style.textAlign = "center";
-        cert.style.fontFamily = "Tahoma, Arial, sans-serif";
+        cert.style.fontFamily = "ArabicCertificate, Tahoma, Arial, sans-serif";
         cert.style.lineHeight = "2";
       }
     });
