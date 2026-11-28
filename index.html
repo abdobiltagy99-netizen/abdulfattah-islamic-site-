@@ -1356,7 +1356,11 @@ if (savedKhatma) {
     </div>
     <div id="quizStart">
       <h3>المسابقة الإسلامية</h3>
-      <p>10 أسئلة متنوعة في كل جولة</p>
+      <p>اختر عدد الأسئلة التي تريد الإجابة عنها</p>
+<input id="quizQuestionCount" type="number"
+min="1" max="50" value="10"
+placeholder="عدد الأسئلة"
+style="width:90%;padding:12px;border-radius:10px;margin:10px">
 <input id="quizPlayerName" type="text" placeholder="اكتب اسم المتسابق" style="width:90%;padding:12px;border-radius:10px;margin:10px">
       <button onclick="startIslamicQuiz()">ابدأ المسابقة</button>
     </div>
@@ -1378,7 +1382,7 @@ if (savedKhatma) {
   <p>تشهد إدارة موقع عبد الفتاح الإسلامي بأن</p>
   <h2 id="certificateName"></h2>
   <p>قد أتم المسابقة الإسلامية بنجاح وحصل على الدرجة الكاملة</p>
-  <h2>10 / 10</h2>
+  <h2 id="certificateScore">10 / 10</h2>
   <p>مقدمة من: موقع عبد الفتاح الإسلامي</p>
   <p id="certificateDate"></p>
   <button onclick="window.print()">طباعة الشهادة</button>
@@ -1448,36 +1452,92 @@ const islamicQuestions = [
  {q:"ما السورة التي لا تبدأ بالبسملة؟",a:["الأنفال","التوبة","يونس","هود"],c:1,d:"سورة التوبة لا تبدأ بالبسملة."},
  {q:"من النبي الذي ابتلعه الحوت؟",a:["يونس عليه السلام","يوسف عليه السلام","إدريس عليه السلام","هود عليه السلام"],c:0,d:"قال الله تعالى: ﴿فَالْتَقَمَهُ الْحُوتُ وَهُوَ مُلِيمٌ﴾ [الصافات: 142]."},
  {q:"ما قبلة المسلمين؟",a:["المسجد الأقصى","الكعبة","المسجد النبوي","جبل عرفات"],c:1,d:"الكعبة المشرفة قبلة المسلمين."},
- {q:"ما الكتاب الذي أُنزل على موسى عليه السلام؟",a:["الإنجيل","الزبور","التوراة","القرآن"],c:2,d:"التوراة كتاب أنزله الله على موسى عليه السلام."}
-];
+ {q:"ما الكتاب الذي أُنزل على موسى عليه السلام؟",a:["الإنجيل","الزبور","التوراة","القرآن"],c:2,d:"التوراة كتاب أنزله الله على موسى عليه السلام."},
+ {q:"كم عدد أجزاء القرآن الكريم؟",a:["20","25","30","40"],c:2,d:"القرآن الكريم ثلاثون جزءًا."},
+ {q:"ما السورة التي تعدل ثلث القرآن؟",a:["الفلق","الإخلاص","الناس","الكوثر"],c:1,d:"قال النبي ﷺ: «قل هو الله أحد تعدل ثلث القرآن» رواه البخاري."},
+ {q:"ما أول ما نزل من القرآن؟",a:["الفاتحة","آية الكرسي","اقرأ باسم ربك","المدثر"],c:2,d:"أول ما نزل صدر سورة العلق، كما في حديث بدء الوحي في صحيح البخاري."},
+ {q:"ما السورة التي توجد فيها آية الكرسي؟",a:["آل عمران","البقرة","النساء","المائدة"],c:1,d:"آية الكرسي هي الآية 255 من سورة البقرة."},
+ {q:"ما أطول آية في القرآن الكريم؟",a:["آية الكرسي","آية الدين","آية النور","آية المداينة"],c:1,d:"آية الدين هي الآية 282 من سورة البقرة."},
+ {q:"من الملك الذي نزل بالوحي على النبي ﷺ؟",a:["ميكائيل","إسرافيل","جبريل","ملك الموت"],c:2,d:"جبريل عليه السلام هو الملك الموكل بالوحي."},
+ {q:"كم عدد الأشهر الحرم؟",a:["2","3","4","5"],c:2,d:"قال الله تعالى: ﴿مِنْهَا أَرْبَعَةٌ حُرُمٌ﴾ [التوبة: 36]."},
+ {q:"في أي سورة وردت قصة أصحاب الكهف؟",a:["مريم","الكهف","يوسف","الأنبياء"],c:1,d:"قصة أصحاب الكهف وردت في سورة الكهف."},
+ {q:"ما اسم والد النبي محمد ﷺ؟",a:["أبو طالب","عبد الله","عبد المطلب","حمزة"],c:1,d:"والد النبي ﷺ هو عبد الله بن عبد المطلب."},
+ {q:"ما اسم أول زوجات النبي ﷺ؟",a:["عائشة","حفصة","خديجة","زينب"],c:2,d:"أول زوجات النبي ﷺ هي خديجة بنت خويلد رضي الله عنها."}, {q:"ما أقصر سورة في القرآن الكريم؟",a:["الإخلاص","الكوثر","العصر","النصر"],c:1,d:"سورة الكوثر أقصر سور القرآن الكريم."},
+ {q:"كم عدد الأنبياء الذين ذُكرت أسماؤهم في القرآن؟",a:["20","25","30","35"],c:1,d:"ذكر القرآن أسماء خمسة وعشرين نبيًا."},
+ {q:"ما اللغة التي نزل بها القرآن الكريم؟",a:["العبرية","السريانية","العربية","الفارسية"],c:2,d:"قال الله تعالى: ﴿بِلِسَانٍ عَرَبِيٍّ مُبِينٍ﴾ [الشعراء: 195]."},
+ {q:"إلى أي مدينة هاجر النبي ﷺ؟",a:["الطائف","القدس","المدينة المنورة","دمشق"],c:2,d:"هاجر النبي ﷺ من مكة إلى المدينة المنورة."},
+ {q:"من صاحب النبي ﷺ في الغار أثناء الهجرة؟",a:["عمر بن الخطاب","أبو بكر الصديق","علي بن أبي طالب","عثمان بن عفان"],c:1,d:"كان أبو بكر الصديق رضي الله عنه مع النبي ﷺ في غار ثور."},
+ {q:"ما اسم الغار الذي اختبأ فيه النبي ﷺ أثناء الهجرة؟",a:["حراء","ثور","أحد","النور"],c:1,d:"اختبأ النبي ﷺ وأبو بكر في غار ثور."},
+ {q:"في أي شهر نزل القرآن الكريم؟",a:["شعبان","رمضان","رجب","شوال"],c:1,d:"قال الله تعالى: ﴿شَهْرُ رَمَضَانَ الَّذِي أُنْزِلَ فِيهِ الْقُرْآنُ﴾ [البقرة: 185]."},
+ {q:"ما اسم أم النبي محمد ﷺ؟",a:["حليمة السعدية","آمنة بنت وهب","صفية بنت عبد المطلب","فاطمة بنت أسد"],c:1,d:"أم النبي ﷺ هي آمنة بنت وهب."},
+ {q:"ما اسم مرضعة النبي ﷺ؟",a:["أم سلمة","حليمة السعدية","أسماء بنت أبي بكر","أم أيمن"],c:1,d:"مرضعة النبي ﷺ المشهورة هي حليمة السعدية."},
+ {q:"من أول الخلفاء الراشدين؟",a:["عمر بن الخطاب","عثمان بن عفان","أبو بكر الصديق","علي بن أبي طالب"],c:2,d:"أول الخلفاء الراشدين أبو بكر الصديق رضي الله عنه."},
+ {q:"من ثاني الخلفاء الراشدين؟",a:["عمر بن الخطاب","علي بن أبي طالب","عثمان بن عفان","أبو بكر الصديق"],c:0,d:"ثاني الخلفاء الراشدين عمر بن الخطاب رضي الله عنه."},
+ {q:"من ثالث الخلفاء الراشدين؟",a:["علي بن أبي طالب","عثمان بن عفان","عمر بن الخطاب","أبو بكر الصديق"],c:1,d:"ثالث الخلفاء الراشدين عثمان بن عفان رضي الله عنه."},
+ {q:"من رابع الخلفاء الراشدين؟",a:["علي بن أبي طالب","عثمان بن عفان","أبو بكر الصديق","عمر بن الخطاب"],c:0,d:"رابع الخلفاء الراشدين علي بن أبي طالب رضي الله عنه."},
+ {q:"من أول مؤذن في الإسلام؟",a:["عبد الله بن مسعود","بلال بن رباح","أبو هريرة","زيد بن ثابت"],c:1,d:"بلال بن رباح رضي الله عنه من أوائل المؤذنين في الإسلام وأشهرهم."},
+ {q:"ما اسم المعركة التي انتصر فيها المسلمون في السنة الثانية للهجرة؟",a:["أحد","الخندق","بدر","حنين"],c:2,d:"وقعت غزوة بدر في السنة الثانية للهجرة."},
+ {q:"ما السورة التي سُمّيت باسم امرأة؟",a:["مريم","النساء","المجادلة","النور"],c:0,d:"سورة مريم سُمّيت باسم مريم عليها السلام."},
+ {q:"ما السورة التي وردت فيها البسملة مرتين؟",a:["البقرة","النمل","التوبة","يس"],c:1,d:"وردت البسملة في بداية سورة النمل وفي الآية 30 منها."},
+ {q:"من النبي الذي أُلقي في النار؟",a:["موسى عليه السلام","إبراهيم عليه السلام","يوسف عليه السلام","نوح عليه السلام"],c:1,d:"ألقى قوم إبراهيم عليه السلام في النار، فنجّاه الله."},
+ {q:"من النبي الذي صنع السفينة بأمر الله؟",a:["نوح عليه السلام","هود عليه السلام","صالح عليه السلام","شعيب عليه السلام"],c:0,d:"أمر الله نوحًا عليه السلام بصنع السفينة."},
+ {q:"من النبي الذي سخّر الله له الريح؟",a:["داود عليه السلام","سليمان عليه السلام","إبراهيم عليه السلام","موسى عليه السلام"],c:1,d:"قال الله تعالى: ﴿فَسَخَّرْنَا لَهُ الرِّيحَ﴾ [ص: 36]."},
+ {q:"من النبي الذي ألان الله له الحديد؟",a:["داود عليه السلام","سليمان عليه السلام","أيوب عليه السلام","زكريا عليه السلام"],c:0,d:"قال الله تعالى: ﴿وَأَلَنَّا لَهُ الْحَدِيدَ﴾ [سبأ: 10]."},
+ {q:"من النبي الذي ابتُلي بالمرض وصبر؟",a:["أيوب عليه السلام","يونس عليه السلام","يوسف عليه السلام","إسماعيل عليه السلام"],c:0,d:"أيوب عليه السلام من الأنبياء الذين ضربوا مثالًا في الصبر."},
+ {q:"من النبي الذي فسّر رؤيا الملك في مصر؟",a:["موسى عليه السلام","يوسف عليه السلام","يعقوب عليه السلام","إبراهيم عليه السلام"],c:1,d:"فسّر يوسف عليه السلام رؤيا الملك في سورة يوسف."},
+ {q:"من النبي الذي كلّمه الله تكليمًا؟",a:["عيسى عليه السلام","موسى عليه السلام","إبراهيم عليه السلام","نوح عليه السلام"],c:1,d:"قال الله تعالى: ﴿وَكَلَّمَ اللَّهُ مُوسَى تَكْلِيمًا﴾ [النساء: 164]."},
+ {q:"من النبي الذي تكلم في المهد؟",a:["يحيى عليه السلام","عيسى عليه السلام","إسماعيل عليه السلام","يوسف عليه السلام"],c:1,d:"تكلم عيسى عليه السلام في المهد كما ورد في سورة مريم."},
+ {q:"ما اسم الجبل الذي استقرت عليه سفينة نوح؟",a:["الطور","الجودي","أحد","الصفا"],c:1,d:"قال الله تعالى: ﴿وَاسْتَوَتْ عَلَى الْجُودِيِّ﴾ [هود: 44]."},
+ {q:"أي نبي أرسله الله إلى قوم عاد؟",a:["صالح عليه السلام","هود عليه السلام","شعيب عليه السلام","لوط عليه السلام"],c:1,d:"أرسل الله هودًا عليه السلام إلى قوم عاد."},
+ {q:"أي نبي أرسله الله إلى قوم ثمود؟",a:["صالح عليه السلام","هود عليه السلام","شعيب عليه السلام","إبراهيم عليه السلام"],c:0,d:"أرسل الله صالحًا عليه السلام إلى قوم ثمود."},];
 
-let quizQuestions=[],quizIndex=0,quizPoints=0,quizAnswered=false;
+let quizQuestions=[],quizIndex=0,quizPoints=0,quizAnswered=false,quizTotalQuestions=10;
 
 function startIslamicQuiz(){
   const playerName = document.getElementById("quizPlayerName").value.trim();
-if (!playerName) {
-  alert("اكتب اسم المتسابق أولًا");
-  return;
+
+  if (!playerName) {
+    alert("اكتب اسم المتسابق أولًا");
+    return;
   }
-  quizQuestions=[...islamicQuestions].sort(()=>Math.random()-.5).slice(0,10);
-  quizIndex=0;
-  quizPoints=0;
-  document.getElementById("quizStart").style.display="none";
-  document.getElementById("quizResult").style.display="none";
-  document.getElementById("quizGame").style.display="block";
+
+  const count = Number(document.getElementById("quizQuestionCount").value);
+
+  if (!Number.isInteger(count) || count < 1 || count > islamicQuestions.length) {
+    alert("اختر عددًا من 1 إلى " + islamicQuestions.length);
+    return;
+  }
+
+  quizTotalQuestions = count;
+
+  quizQuestions = [...islamicQuestions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, quizTotalQuestions);
+
+  quizIndex = 0;
+  quizPoints = 0;
+
+  document.getElementById("quizStart").style.display = "none";
+  document.getElementById("quizResult").style.display = "none";
+  document.getElementById("quizGame").style.display = "block";
+
   showIslamicQuestion();
 }
 
 function showIslamicQuestion(){
   quizAnswered=false;
   const q=quizQuestions[quizIndex];
+
   document.getElementById("quizProgress").textContent=
-    "السؤال "+(quizIndex+1)+" من 10";
+    "السؤال "+(quizIndex+1)+" من "+quizTotalQuestions;
+
   document.getElementById("quizQuestion").textContent=q.q;
   document.getElementById("quizFeedback").textContent="";
   document.getElementById("quizNext").style.display="none";
+
   const box=document.getElementById("quizOptions");
   box.innerHTML="";
+
   q.a.forEach((answer,i)=>{
     const b=document.createElement("button");
     b.className="quiz-option";
@@ -1489,77 +1549,96 @@ function showIslamicQuestion(){
 
 function answerIslamicQuestion(choice){
   if(quizAnswered)return;
+
   quizAnswered=true;
   const q=quizQuestions[quizIndex];
   const buttons=document.querySelectorAll("#quizOptions button");
+
   buttons.forEach((b,i)=>{
     b.disabled=true;
     if(i===q.c)b.classList.add("quiz-correct");
     if(i===choice&&i!==q.c)b.classList.add("quiz-wrong");
   });
+
   if(choice===q.c)quizPoints++;
+
   document.getElementById("quizFeedback").textContent=
     (choice===q.c?"إجابة صحيحة. ":"إجابة غير صحيحة. ")+
     "الإجابة: "+q.a[q.c]+". "+q.d;
+
   document.getElementById("quizNext").style.display="inline-block";
   document.getElementById("quizNext").textContent=
-    quizIndex===9?"عرض النتيجة":"السؤال التالي";
-}
-
+    quizIndex===quizTotalQuestions-1?"عرض النتيجة":"السؤال التالي";
+      }
 function nextIslamicQuestion(){
   quizIndex++;
-  if(quizIndex<10){
+
+  if(quizIndex < quizTotalQuestions){
     showIslamicQuestion();
   }else{
     document.getElementById("quizGame").style.display="none";
     document.getElementById("quizResult").style.display="block";
-    document.getElementById("quizScore").textContent=quizPoints+" من 10";
+
+    document.getElementById("quizScore").textContent=
+      quizPoints+" من "+quizTotalQuestions;
+
     document.getElementById("quizMessage").textContent=
-      quizPoints>=8?"أحسنت! حصلت على 8 إجابات صحيحة أو أكثر.":
-      "يمكنك المحاولة مرة أخرى لتحسين نتيجتك.";
-    const best=Math.max(quizPoints,
-      Number(localStorage.getItem("islamicQuizBest")||0));
+      quizPoints >= quizTotalQuestions * 0.8
+      ? "أحسنت! حققت 80% من الإجابات الصحيحة أو أكثر."
+      : "يمكنك المحاولة مرة أخرى لتحسين نتيجتك.";
+
+    const best=Math.max(
+      quizPoints,
+      Number(localStorage.getItem("islamicQuizBest")||0)
+    );
+
     localStorage.setItem("islamicQuizBest",best);
+
     document.getElementById("quizMessage").textContent+=
-      " أعلى نتيجة لك: "+best+" من 10.";
-    const certificate = document.getElementById("quizCertificate");
+      " أعلى نتيجة سابقة: "+best+".";
 
-if (quizPoints === 10) {
-  document.getElementById("certificateName").textContent =
-    document.getElementById("quizPlayerName").value.trim() || "المتسابق";
+    const certificate=document.getElementById("quizCertificate");
 
-  document.getElementById("certificateDate").textContent =
-    "تاريخ الحصول على الشهادة: " + new Date().toLocaleDateString("ar-EG");
+    if(quizPoints === quizTotalQuestions){
+      document.getElementById("certificateName").textContent=
+        document.getElementById("quizPlayerName").value.trim() || "المتسابق";
 
-  certificate.style.display = "block";
-} else {
-  certificate.style.display = "none";
-}
+      document.getElementById("certificateDate").textContent=
+        "تاريخ الحصول على الشهادة: "+new Date().toLocaleDateString("ar-EG");
 
-if (auth.currentUser) {
-  (async () => {
-    try {
-      const playerRef = db.collection("players").doc(auth.currentUser.uid);
-      const playerDoc = await playerRef.get();
-      const oldData = playerDoc.exists ? playerDoc.data() : {};
-
-      await playerRef.set({
-        email: auth.currentUser.email,
-        name: document.getElementById("quizPlayerName").value.trim(),
-        totalPoints: (oldData.totalPoints || 0) + quizPoints,
-        gamesPlayed: (oldData.gamesPlayed || 0) + 1,
-        bestScore: Math.max(oldData.bestScore || 0, quizPoints),
-        lastScore: quizPoints,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      }, { merge: true });
-
-      document.getElementById("quizAuthStatus").textContent =
-        "تم حفظ نتيجتك في حسابك.";
-    } catch (error) {
-      document.getElementById("quizAuthStatus").textContent =
-        "تعذر حفظ النتيجة: " + error.message;
+      certificate.style.display="block";
+      
+        quizTotalQuestions+" / "+quizTotalQuestions;
+    }else{
+      certificate.style.display="none";
     }
-  })();
+
+    if(auth.currentUser){
+      (async()=>{
+        try{
+          const playerRef=db.collection("players").doc(auth.currentUser.uid);
+          const playerDoc=await playerRef.get();
+          const oldData=playerDoc.exists?playerDoc.data():{};
+
+          await playerRef.set({
+            email:auth.currentUser.email,
+            name:document.getElementById("quizPlayerName").value.trim(),
+            totalPoints:(oldData.totalPoints||0)+quizPoints,
+            gamesPlayed:(oldData.gamesPlayed||0)+1,
+            bestScore:Math.max(oldData.bestScore||0,quizPoints),
+bestScorePercent:Math.max(oldData.bestScorePercent||0,
+  Math.round((quizPoints/quizTotalQuestions)*100)),
+            lastScore:quizPoints,
+            updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+          },{merge:true});
+
+          document.getElementById("quizAuthStatus").textContent=
+            "تم حفظ نتيجتك في حسابك.";
+        }catch(error){
+  document.getElementById("quizAuthStatus").textContent=
+    "تعذر حفظ النتيجة: "+error.message;
+  }
+})();
 }
   }
 }
@@ -1606,7 +1685,7 @@ function shareQuizCertificate() {
   ctx.fillText("وحصل على الدرجة الكاملة", 600, 535);
 
   ctx.font = "bold 65px Tahoma, Arial";
-  ctx.fillText("10 / 10", 600, 640);
+  ctx.fillText(quizTotalQuestions+" / "+quizTotalQuestions, 600, 640);
 
   ctx.font = "28px Tahoma, Arial";
   ctx.fillText("مقدمة من: موقع عبد الفتاح الإسلامي", 600, 710);
@@ -2834,7 +2913,7 @@ function askIslamicAi() {
       data.gamesPlayed || 0;
 
     document.getElementById("playerBestScore").textContent =
-      data.bestScore || 0;
+      (data.bestScorePercent || 0) + "%";
 
     document.getElementById("quizPlayerStats").style.display = "block";
   } catch (error) {
