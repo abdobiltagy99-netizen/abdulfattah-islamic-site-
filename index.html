@@ -1527,9 +1527,34 @@ if (quizPoints === 10) {
   certificate.style.display = "block";
 } else {
   certificate.style.display = "none";
-      }
-  }
 }
+
+if (auth.currentUser) {
+  (async () => {
+    try {
+      const playerRef = db.collection("players").doc(auth.currentUser.uid);
+      const playerDoc = await playerRef.get();
+      const oldData = playerDoc.exists ? playerDoc.data() : {};
+
+      await playerRef.set({
+        email: auth.currentUser.email,
+        name: document.getElementById("quizPlayerName").value.trim(),
+        totalPoints: (oldData.totalPoints || 0) + quizPoints,
+        gamesPlayed: (oldData.gamesPlayed || 0) + 1,
+        bestScore: Math.max(oldData.bestScore || 0, quizPoints),
+        lastScore: quizPoints,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      document.getElementById("quizAuthStatus").textContent =
+        "تم حفظ نتيجتك في حسابك.";
+    } catch (error) {
+      document.getElementById("quizAuthStatus").textContent =
+        "تعذر حفظ النتيجة: " + error.message;
+    }
+  })();
+}
+  }
 function shareQuizCertificate() {
   const canvas = document.createElement("canvas");
   canvas.width = 1200;
