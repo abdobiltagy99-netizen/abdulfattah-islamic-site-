@@ -1606,9 +1606,10 @@ function nextIslamicQuestion(){
       document.getElementById("certificateDate").textContent=
         "تاريخ الحصول على الشهادة: "+new Date().toLocaleDateString("ar-EG");
 
-      certificate.style.display="block";
-      
+      document.getElementById("certificateScore").textContent=
         quizTotalQuestions+" / "+quizTotalQuestions;
+
+      certificate.style.display="block";
     }else{
       certificate.style.display="none";
     }
@@ -1626,8 +1627,10 @@ function nextIslamicQuestion(){
             totalPoints:(oldData.totalPoints||0)+quizPoints,
             gamesPlayed:(oldData.gamesPlayed||0)+1,
             bestScore:Math.max(oldData.bestScore||0,quizPoints),
-bestScorePercent:Math.max(oldData.bestScorePercent||0,
-  Math.round((quizPoints/quizTotalQuestions)*100)),
+            bestScorePercent:Math.max(
+              oldData.bestScorePercent||0,
+              Math.round((quizPoints/quizTotalQuestions)*100)
+            ),
             lastScore:quizPoints,
             updatedAt:firebase.firestore.FieldValue.serverTimestamp()
           },{merge:true});
@@ -1635,13 +1638,13 @@ bestScorePercent:Math.max(oldData.bestScorePercent||0,
           document.getElementById("quizAuthStatus").textContent=
             "تم حفظ نتيجتك في حسابك.";
         }catch(error){
-  document.getElementById("quizAuthStatus").textContent=
-    "تعذر حفظ النتيجة: "+error.message;
+          document.getElementById("quizAuthStatus").textContent=
+            "تعذر حفظ النتيجة: "+error.message;
+        }
+      })();
+    }
   }
-})();
-}
   }
-}
 function shareQuizCertificate() {
   const canvas = document.createElement("canvas");
   canvas.width = 1200;
