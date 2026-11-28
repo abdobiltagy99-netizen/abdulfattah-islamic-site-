@@ -1530,7 +1530,34 @@ async function shareQuizCertificate() {
   try {
     await document.fonts.ready;
 
+    async function shareQuizCertificate() {
+  const certificate = document.getElementById("quizCertificate");
+
+  try {
+    await document.fonts.ready;
+
+    certificate.style.direction = "rtl";
+    certificate.style.textAlign = "center";
+    certificate.style.fontFamily = "Tahoma, Arial, sans-serif";
+    certificate.style.lineHeight = "2";
+    certificate.style.width = "90%";
+
     const canvas = await html2canvas(certificate, {
+      scale: 3,
+      backgroundColor: "#fffdf3",
+      useCORS: true,
+      letterRendering: true
+    });
+
+    const link = document.createElement("a");
+    link.download = "شهادة-المسابقة.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+  } catch (error) {
+    alert("تعذر إنشاء صورة الشهادة.");
+  }
+  }
       scale: 2,
       backgroundColor: "#fffdf3",
       useCORS: true,
