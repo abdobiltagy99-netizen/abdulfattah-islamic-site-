@@ -1347,6 +1347,12 @@ if (savedKhatma) {
       <button onclick="quizResetPassword()">نسيت كلمة المرور؟</button>
   <p id="quizAuthStatus">يمكنك اللعب كزائر دون تسجيل.</p>
   <button id="quizSignOut" onclick="quizSignOut()" style="display:none">تسجيل الخروج</button>
+    </div><div id="quizPlayerStats" style="display:none;margin:15px auto;padding:18px;border:2px solid #d4af37;border-radius:12px">
+  <h3>إنجازاتي في المسابقات</h3>
+  <p>إجمالي النقاط: <strong id="playerTotalPoints">0</strong></p>
+  <p>عدد المسابقات: <strong id="playerGamesPlayed">0</strong></p>
+  <p>أفضل نتيجة: <strong id="playerBestScore">0</strong> من 10</p>
+  <button onclick="loadPlayerStats()">تحديث النقاط</button>
     </div>
     <div id="quizStart">
       <h3>المسابقة الإسلامية</h3>
@@ -2813,6 +2819,29 @@ function askIslamicAi() {
   }
 </script></div>
 </div><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script>
+  window.loadPlayerStats = async function() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    const doc = await db.collection("players").doc(user.uid).get();
+    const data = doc.exists ? doc.data() : {};
+
+    document.getElementById("playerTotalPoints").textContent =
+      data.totalPoints || 0;
+
+    document.getElementById("playerGamesPlayed").textContent =
+      data.gamesPlayed || 0;
+
+    document.getElementById("playerBestScore").textContent =
+      data.bestScore || 0;
+
+    document.getElementById("quizPlayerStats").style.display = "block";
+  } catch (error) {
+    document.getElementById("quizAuthStatus").textContent =
+      "تعذر تحميل النقاط: " + error.message;
+  }
+};
 window.quizSignUp = async function() {
   const email = document.getElementById("quizEmail").value.trim();
   const password = document.getElementById("quizPassword").value;
@@ -2869,5 +2898,12 @@ auth.onAuthStateChanged(user => {
 
   document.getElementById("quizSignOut").style.display =
     user ? "inline-block" : "none";
+
+  document.getElementById("quizPlayerStats").style.display =
+    user ? "block" : "none";
+
+  if (user) {
+    loadPlayerStats();
+  }
 });
 </script></body></html>
