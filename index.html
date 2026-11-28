@@ -765,7 +765,6 @@ auth.onAuthStateChanged(async user => {
     document.getElementById("adminEntry").style.display = "none";
   } else {
     panel.style.display = "none";
-    if (user) await auth.signOut();
   }
 });
 
@@ -786,7 +785,75 @@ document.getElementById("adminLogout").onclick = () => auth.signOut();
   <div id="searchResults" style="text-align:right;margin-top:12px"></div>
   </div>
 <header id="siteHeader">
-<img src="./1000037383.jpg" alt="شعار الموقع" style="width:90px;height:90px;object-fit:contain;margin:auto auto 10px;display:block">
+<div id="topAccountBar" dir="rtl">
+  <button id="topLoginButton" onclick="profileLogin()">
+    تسجيل الدخول
+  </button>
+
+  <div id="topProfile" style="display:none">
+    <img id="topProfilePhoto" alt="الصورة الشخصية">
+    <span id="topProfileName"></span>
+
+    <button onclick="chooseProfilePhoto()">تغيير الصورة</button>
+    <button onclick="removeProfilePhoto()">حذف الصورة</button>
+    <button onclick="profileSignOut()">خروج</button>
+
+    <input id="profilePhotoInput" type="file"
+      accept="image/*" style="display:none"
+      onchange="saveProfilePhoto(event)">
+
+  </div>
+
+  <p id="profileMessage"></p>
+</div>
+
+<style>
+#topAccountBar {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px;
+  margin:10px auto;
+  max-width:100%;
+  color:white;
+}
+#topProfile {
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+#topProfilePhoto {
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #d4af37;
+  display:none;
+}
+#topAccountBar button {
+  background:#d4af37;
+  color:#073f3b;
+  border:0;
+  border-radius:8px;
+  padding:9px 12px;
+  cursor:pointer;
+  font-weight:bold;
+}
+#topProfileName {
+  font-weight:bold;
+  max-width:150px;
+  overflow-wrap:anywhere;
+}
+#profileMessage {
+  width:100%;
+  text-align:center;
+  font-size:13px;
+  margin:0;
+}
+</style><img src="./1000037383.jpg" alt="شعار الموقع" style="width:90px;height:90px;object-fit:contain;margin:auto auto 10px;display:block">
 <div class="brand" id="siteNameDisplay">؏ــبــدالــڣــتــاح</div>
 <div class="sub" id="siteDescriptionDisplay">𝓐𝓫𝓭𝓸𝓑𝓲𝓵𝓽𝓪𝓰𝔂 · مكتبة إسلامية</div>
 <nav><a href="#quran">القرآن</a><a href="#hadith">الحديث</a><a href="#adhkar">الأذكار</a><a href="#seerah">السيرة</a><a href="#learning">علوم شرعية</a><a href="#books">كتب نافعة</a></nav></header>
@@ -3110,4 +3177,170 @@ auth.onAuthStateChanged(user => {
 
 })();
 </script>
-</body></html>
+<script>
+window.profileLogin = function() {
+  document.getElementById("quizAccount").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+  document.getElementById("quizEmail").focus();
+};
+
+window.chooseProfilePhoto = function() {
+  document.getElementById("profilePhotoInput").click();
+};
+
+window.profileSignOut = async function() {
+  try {
+    await auth.signOut();
+  } catch (error) {
+    document.getElementById("profileMessage").textContent =
+      "تعذر تسجيل الخروج: " + error.message;
+  }
+};
+
+window.saveProfilePhoto = async function(event) {
+  const file = event.target.files[0];
+  const message = document.getElementById("profileMessage");
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    message.textContent = "اختر ملف صورة صحيحًا.";
+    return;
+  }
+
+  if (file.size > 8 * 1024 * 1024) {
+    message.textContent = "حجم الصورة كبير. اختر صورة أقل من 8 ميجابايت.";
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) {
+    message.textContent = "سجّل الدخول أولًا.";
+    return;
+  }
+
+  message.textContent = "جارٍ تجهيز الصورة وحفظها...";
+
+  try {
+    const reader = new FileReader();
+
+    const imageData = await new Promise((resolve, reject) => {
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    const img = new Image();
+
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = imageData;
+    });
+
+    const canvas = document.createElement("canvas");
+    const size = 256;
+
+    canvas.width = size;
+    canvas.height = size;
+
+    const context = canvas.getContext("2d");
+    const scale = Math.min(size / img.width, size / img.height);
+    const width = img.width * scale;
+    const height = img.height * scale;
+
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, size, size);
+
+    context.drawImage(
+      img,
+      (size - width) / 2,
+      (size - height) / 2,
+      width,
+      height
+    );
+
+    const compressedPhoto = canvas.toDataURL("image/jpeg", 0.65);
+
+    if (compressedPhoto.length > 180000) {
+      message.textContent =
+        "الصورة ما زالت كبيرة. اختر صورة أصغر.";
+      return;
+    }
+
+    await db.collection("players").doc(user.uid).set({
+      profilePhotoData: compressedPhoto
+    }, { merge: true });
+
+    document.getElementById("topProfilePhoto").src = compressedPhoto;
+    document.getElementById("topProfilePhoto").style.display = "block";
+
+    message.textContent = "تم حفظ صورتك الشخصية بنجاح.";
+
+  } catch (error) {
+    message.textContent = "تعذر حفظ الصورة: " + error.message;
+  } finally {
+    event.target.value = "";
+  }
+};
+
+window.removeProfilePhoto = async function() {
+  const user = auth.currentUser;
+  const message = document.getElementById("profileMessage");
+
+  if (!user) return;
+
+  try {
+    await db.collection("players").doc(user.uid).set({
+      profilePhotoData: firebase.firestore.FieldValue.delete()
+    }, { merge: true });
+
+    document.getElementById("topProfilePhoto").removeAttribute("src");
+    document.getElementById("topProfilePhoto").style.display = "none";
+
+    message.textContent = "تم حذف الصورة الشخصية.";
+  } catch (error) {
+    message.textContent = "تعذر حذف الصورة: " + error.message;
+  }
+};
+
+auth.onAuthStateChanged(async function(user) {
+  const loginButton = document.getElementById("topLoginButton");
+  const profile = document.getElementById("topProfile");
+  const photo = document.getElementById("topProfilePhoto");
+  const name = document.getElementById("topProfileName");
+  const message = document.getElementById("profileMessage");
+
+  if (!user) {
+    loginButton.style.display = "inline-block";
+    profile.style.display = "none";
+    photo.style.display = "none";
+    photo.removeAttribute("src");
+    name.textContent = "";
+    message.textContent = "";
+    return;
+  }
+
+  loginButton.style.display = "none";
+  profile.style.display = "flex";
+  name.textContent = user.displayName || user.email.split("@")[0];
+  message.textContent = "";
+
+  try {
+    const doc = await db.collection("players").doc(user.uid).get();
+
+    if (auth.currentUser && auth.currentUser.uid === user.uid && doc.exists) {
+      const data = doc.data();
+
+      if (data.profilePhotoData) {
+        photo.src = data.profilePhotoData;
+        photo.style.display = "block";
+      }
+    }
+  } catch (error) {
+    message.textContent = "تعذر تحميل الصورة الشخصية.";
+  }
+});
+</script></body></html>
