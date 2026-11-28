@@ -1344,6 +1344,7 @@ if (savedKhatma) {
     style="width:90%;padding:12px;margin:5px">
   <button onclick="quizSignUp()">إنشاء حساب</button>
   <button onclick="quizSignIn()">تسجيل الدخول</button>
+      <button onclick="quizResetPassword()">نسيت كلمة المرور؟</button>
   <p id="quizAuthStatus">يمكنك اللعب كزائر دون تسجيل.</p>
   <button id="quizSignOut" onclick="quizSignOut()" style="display:none">تسجيل الخروج</button>
     </div>
@@ -2824,7 +2825,24 @@ window.quizSignUp = async function() {
       "تعذر إنشاء الحساب: " + error.message;
   }
 };
+window.quizResetPassword = async function() {
+  const email = document.getElementById("quizEmail").value.trim();
 
+  if (!email) {
+    document.getElementById("quizAuthStatus").textContent =
+      "اكتب بريدك الإلكتروني أولًا.";
+    return;
+  }
+
+  try {
+    await auth.sendPasswordResetEmail(email);
+    document.getElementById("quizAuthStatus").textContent =
+      "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.";
+  } catch (error) {
+    document.getElementById("quizAuthStatus").textContent =
+      "تعذر إرسال الرابط: " + error.message;
+  }
+};
 window.quizSignIn = async function() {
   const email = document.getElementById("quizEmail").value.trim();
   const password = document.getElementById("quizPassword").value;
