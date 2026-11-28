@@ -1607,7 +1607,7 @@ function nextIslamicQuestion(){
         "تاريخ الحصول على الشهادة: "+new Date().toLocaleDateString("ar-EG");
 
       document.getElementById("certificateScore").textContent=
-        quizTotalQuestions+" / "+quizTotalQuestions;
+        quizPoints+" / "+quizTotalQuestions;
 
       certificate.style.display="block";
     }else{
@@ -1687,7 +1687,7 @@ function shareQuizCertificate() {
   ctx.fillText("وحصل على الدرجة الكاملة", 600, 535);
 
   ctx.font = "bold 65px Tahoma, Arial";
-  ctx.fillText(quizTotalQuestions+" / "+quizTotalQuestions, 600, 640);
+  ctx.fillText(quizPoints+" / "+quizTotalQuestions, 600, 640);
 
   ctx.font = "28px Tahoma, Arial";
   ctx.fillText("مقدمة من: موقع عبد الفتاح الإسلامي", 600, 710);
