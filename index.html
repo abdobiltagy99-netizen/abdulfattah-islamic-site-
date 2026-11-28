@@ -1522,31 +1522,20 @@ if (quizPoints === 10) {
 async function shareQuizCertificate() {
   const certificate = document.getElementById("quizCertificate");
 
-  if (!window.html2canvas) {
-    alert("تعذر إنشاء الصورة حاليًا.");
-    return;
-  }
-
   try {
     await document.fonts.ready;
-
-    async function shareQuizCertificate() {
-  const certificate = document.getElementById("quizCertificate");
-
-  try {
-    await document.fonts.ready;
-
-    certificate.style.direction = "rtl";
-    certificate.style.textAlign = "center";
-    certificate.style.fontFamily = "Tahoma, Arial, sans-serif";
-    certificate.style.lineHeight = "2";
-    certificate.style.width = "90%";
 
     const canvas = await html2canvas(certificate, {
       scale: 3,
       backgroundColor: "#fffdf3",
       useCORS: true,
-      letterRendering: true
+      onclone: (doc) => {
+        const cert = doc.getElementById("quizCertificate");
+        cert.style.direction = "rtl";
+        cert.style.textAlign = "center";
+        cert.style.fontFamily = "Tahoma, Arial, sans-serif";
+        cert.style.lineHeight = "2";
+      }
     });
 
     const link = document.createElement("a");
@@ -1558,44 +1547,6 @@ async function shareQuizCertificate() {
     alert("تعذر إنشاء صورة الشهادة.");
   }
   }
-      scale: 2,
-      backgroundColor: "#fffdf3",
-      useCORS: true,
-      onclone: (doc) => {
-        const cert = doc.getElementById("quizCertificate");
-        cert.style.direction = "rtl";
-        cert.style.textAlign = "center";
-        cert.style.fontFamily = "Tahoma, Arial, sans-serif";
-      }
-    });
-
-    canvas.toBlob(async (blob) => {
-      if (!blob) return;
-
-      const file = new File(
-        [blob],
-        "شهادة-المسابقة.png",
-        { type: "image/png" }
-      );
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: "شهادة المسابقة الإسلامية"
-        });
-      } else {
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "شهادة-المسابقة.png";
-        link.click();
-        URL.revokeObjectURL(link.href);
-      }
-    }, "image/png");
-
-    } catch (error) {
-    alert("تعذر إنشاء الصورة أو مشاركتها.");
-  }
-}
 </script>
 
 <section id="myYouTubeVideos" style="padding:20px;text-align:center">
