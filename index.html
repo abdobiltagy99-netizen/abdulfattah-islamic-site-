@@ -1336,6 +1336,17 @@ if (savedKhatma) {
   <p>اختبر معلوماتك في القرآن والسنة والسيرة النبوية</p>
 
   <div class="panel" style="max-width:650px;margin:auto">
+    <div id="quizAccount" style="margin:15px auto;padding:15px;border:1px solid #d4af37;border-radius:12px">
+  <h3>حساب المتسابق</h3>
+  <input id="quizEmail" type="email" placeholder="البريد الإلكتروني"
+    style="width:90%;padding:12px;margin:5px">
+  <input id="quizPassword" type="password" placeholder="كلمة المرور"
+    style="width:90%;padding:12px;margin:5px">
+  <button onclick="quizSignUp()">إنشاء حساب</button>
+  <button onclick="quizSignIn()">تسجيل الدخول</button>
+  <p id="quizAuthStatus">يمكنك اللعب كزائر دون تسجيل.</p>
+  <button id="quizSignOut" onclick="quizSignOut()" style="display:none">تسجيل الخروج</button>
+    </div>
     <div id="quizStart">
       <h3>المسابقة الإسلامية</h3>
       <p>10 أسئلة متنوعة في كل جولة</p>
@@ -2774,4 +2785,45 @@ function askIslamicAi() {
   }
   }
 </script></div>
-</div><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script></body></html>
+</div><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script>
+window.quizSignUp = async function() {
+  const email = document.getElementById("quizEmail").value.trim();
+  const password = document.getElementById("quizPassword").value;
+
+  try {
+    await auth.createUserWithEmailAndPassword(email, password);
+    document.getElementById("quizAuthStatus").textContent =
+      "تم إنشاء الحساب وتسجيل الدخول بنجاح.";
+  } catch (error) {
+    document.getElementById("quizAuthStatus").textContent =
+      "تعذر إنشاء الحساب: " + error.message;
+  }
+};
+
+window.quizSignIn = async function() {
+  const email = document.getElementById("quizEmail").value.trim();
+  const password = document.getElementById("quizPassword").value;
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    document.getElementById("quizAuthStatus").textContent =
+      "تم تسجيل الدخول بنجاح.";
+  } catch (error) {
+    document.getElementById("quizAuthStatus").textContent =
+      "تعذر تسجيل الدخول: " + error.message;
+  }
+};
+
+window.quizSignOut = async function() {
+  await auth.signOut();
+};
+
+auth.onAuthStateChanged(user => {
+  document.getElementById("quizAuthStatus").textContent =
+    user ? "تم تسجيل الدخول: " + user.email :
+    "يمكنك اللعب كزائر دون تسجيل.";
+
+  document.getElementById("quizSignOut").style.display =
+    user ? "inline-block" : "none";
+});
+</script></body></html>
