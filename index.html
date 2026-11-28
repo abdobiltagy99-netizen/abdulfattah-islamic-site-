@@ -1339,6 +1339,7 @@ if (savedKhatma) {
     <div id="quizStart">
       <h3>المسابقة الإسلامية</h3>
       <p>10 أسئلة متنوعة في كل جولة</p>
+<input id="quizPlayerName" type="text" placeholder="اكتب اسم المتسابق" style="width:90%;padding:12px;border-radius:10px;margin:10px">
       <button onclick="startIslamicQuiz()">ابدأ المسابقة</button>
     </div>
 
@@ -1354,6 +1355,16 @@ if (savedKhatma) {
       <h3>انتهت المسابقة</h3>
       <h2 id="quizScore"></h2>
       <p id="quizMessage"></p>
+      <div id="quizCertificate" style="display:none;background:#fffdf3;color:#073f3b;border:5px double #d4af37;border-radius:15px;padding:25px;margin:20px auto;max-width:600px">
+  <h2>شهادة إتمام المسابقة الإسلامية</h2>
+  <p>تشهد إدارة موقع عبد الفتاح الإسلامي بأن</p>
+  <h2 id="certificateName"></h2>
+  <p>قد أتم المسابقة الإسلامية بنجاح وحصل على الدرجة الكاملة</p>
+  <h2>10 / 10</h2>
+  <p>مقدمة من: موقع عبد الفتاح الإسلامي</p>
+  <p id="certificateDate"></p>
+  <button onclick="window.print()">طباعة الشهادة</button>
+      </div>
       <button onclick="startIslamicQuiz()">أعد المسابقة</button>
     </div>
   </div>
@@ -1381,7 +1392,29 @@ if (savedKhatma) {
 #islamicQuiz .quiz-wrong {
   background:#8b2525;
 }
-</style>
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #quizCertificate,
+  #quizCertificate * {
+    visibility: visible;
+  }
+
+  #quizCertificate {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%;
+    margin: 0;
+  }
+
+  #quizCertificate button {
+    display: none;
+  }
+  }</style>
 
 <script>
 const islamicQuestions = [
@@ -1402,6 +1435,11 @@ const islamicQuestions = [
 let quizQuestions=[],quizIndex=0,quizPoints=0,quizAnswered=false;
 
 function startIslamicQuiz(){
+  const playerName = document.getElementById("quizPlayerName").value.trim();
+if (!playerName) {
+  alert("اكتب اسم المتسابق أولًا");
+  return;
+  }
   quizQuestions=[...islamicQuestions].sort(()=>Math.random()-.5).slice(0,10);
   quizIndex=0;
   quizPoints=0;
@@ -1465,6 +1503,19 @@ function nextIslamicQuestion(){
     localStorage.setItem("islamicQuizBest",best);
     document.getElementById("quizMessage").textContent+=
       " أعلى نتيجة لك: "+best+" من 10.";
+    const certificate = document.getElementById("quizCertificate");
+
+if (quizPoints === 10) {
+  document.getElementById("certificateName").textContent =
+    document.getElementById("quizPlayerName").value.trim() || "المتسابق";
+
+  document.getElementById("certificateDate").textContent =
+    "تاريخ الحصول على الشهادة: " + new Date().toLocaleDateString("ar-EG");
+
+  certificate.style.display = "block";
+} else {
+  certificate.style.display = "none";
+      }
   }
 }
 </script>
