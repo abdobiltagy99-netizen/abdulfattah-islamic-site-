@@ -2989,4 +2989,79 @@ auth.onAuthStateChanged(user => {
     loadPlayerStats();
   }
 });
-</script></body></html>
+</script>
+<section id="quizAchievements" style="padding:25px 15px;text-align:center">
+  <h2>🏆 سجل إنجازات المتسابقين</h2>
+  <p>تابع إنجازاتك في المسابقات الإسلامية</p>
+
+  <div style="max-width:650px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+
+    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
+      <h3>المسابقات</h3>
+      <h2 id="achievementGames">0</h2>
+    </div>
+
+    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
+      <h3>إجمالي النقاط</h3>
+      <h2 id="achievementPoints">0</h2>
+    </div>
+
+    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
+      <h3>أفضل نتيجة</h3>
+      <h2 id="achievementBest">0</h2>
+    </div>
+
+    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
+      <h3>أفضل نسبة</h3>
+      <h2 id="achievementPercent">0%</h2>
+    </div>
+
+  </div>
+
+  <p id="achievementStatus">جارٍ تحميل الإنجازات...</p>
+</section>
+
+<script>
+(function(){
+
+  const status = document.getElementById("achievementStatus");
+
+  function showAchievement(id,value){
+    document.getElementById(id).textContent=value;
+  }
+
+  auth.onAuthStateChanged(async function(user){
+
+    if(!user){
+      status.textContent="سجّل الدخول لعرض إنجازاتك.";
+      return;
+    }
+
+    status.textContent="جارٍ تحميل إنجازاتك...";
+
+    try{
+      const doc = await db.collection("players").doc(user.uid).get();
+
+      if(!doc.exists){
+        status.textContent="لم تسجل أي نتائج حتى الآن.";
+        return;
+      }
+
+      const data=doc.data();
+
+      showAchievement("achievementGames",data.gamesPlayed||0);
+      showAchievement("achievementPoints",data.totalPoints||0);
+      showAchievement("achievementBest",data.bestScore||0);
+      showAchievement("achievementPercent",(data.bestScorePercent||0)+"%");
+
+      status.textContent="تم تحميل إنجازاتك بنجاح.";
+
+    }catch(error){
+      status.textContent="تعذر تحميل الإنجازات: "+error.message;
+    }
+
+  });
+
+})();
+</script>
+</body></html>
