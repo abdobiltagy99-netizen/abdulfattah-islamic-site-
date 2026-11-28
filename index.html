@@ -1634,6 +1634,20 @@ function nextIslamicQuestion(){
             lastScore:quizPoints,
             updatedAt:firebase.firestore.FieldValue.serverTimestamp()
           },{merge:true});
+          
+await db.collection("quizLeaderboard")
+  .doc(auth.currentUser.uid)
+  .set({
+    name:document.getElementById("quizPlayerName").value.trim() || "متسابق",
+    bestScore:Math.max(oldData.bestScore||0,quizPoints),
+    bestScorePercent:Math.max(
+      oldData.bestScorePercent||0,
+      Math.round((quizPoints/quizTotalQuestions)*100)
+    ),
+    gamesPlayed:(oldData.gamesPlayed||0)+1,
+    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+  },{merge:true});
+
 
           document.getElementById("quizAuthStatus").textContent=
             "تم حفظ نتيجتك في حسابك.";
@@ -1707,22 +1721,69 @@ function shareQuizCertificate() {
   link.click();
                                       }
 </script>
-<details id="quizAchievements" style="max-width:500px;margin:12px auto;padding:10px;border:1px solid #d4af37;border-radius:12px;background:#f8f6ed;color:#073f3b;text-align:center">
-  <summary style="cursor:pointer;font-weight:bold;padding:8px">
-    🏆 إنجازاتي في المسابقات
-  </summary>
 
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px">
-    <div>المسابقات: <strong id="achievementGames">0</strong></div>
-    <div>النقاط: <strong id="achievementPoints">0</strong></div>
-    <div>أفضل نتيجة: <strong id="achievementBest">0</strong></div>
-    <div>أفضل نسبة: <strong id="achievementPercent">0%</strong></div>
+<div style="max-width:650px;margin:12px auto;padding:0 8px">
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+
+    <details id="quizAchievements" style="min-width:0;background:#f8f6ed;color:#073f3b;border:1px solid #d4af37;border-radius:12px;padding:9px;text-align:center">
+      <summary style="cursor:pointer;font-weight:bold;font-size:14px">
+        🏆 إنجازاتي
+      </summary>
+      <div style="font-size:12px;padding-top:10px;line-height:2">
+        المسابقات: <strong id="achievementGames">0</strong>
+        <br>
+        النقاط: <strong id="achievementPoints">0</strong>
+        <br>
+        أفضل نتيجة: <strong id="achievementBest">0</strong>
+        <br>
+        أفضل نسبة: <strong id="achievementPercent">0%</strong>
+      </div>
+      <p id="achievementStatus" style="font-size:10px">جارٍ التحميل...</p>
+    </details>
+
+    <details id="quizLeaderboardPanel" style="min-width:0;background:#f8f6ed;color:#073f3b;border:1px solid #d4af37;border-radius:12px;padding:9px;text-align:center">
+      <summary style="cursor:pointer;font-weight:bold;font-size:14px">
+        🥇 الترتيب
+      </summary>
+      <ol id="leaderboardList" style="text-align:right;padding-right:25px;font-size:12px;line-height:2">
+        <li>جارٍ تحميل الترتيب...</li>
+      </ol>
+    </details>
+
   </div>
+</div>
 
-  <p id="achievementStatus" style="font-size:12px;margin:5px">
-    جارٍ تحميل الإنجازات...
-  </p>
-</details>
+<script>
+(async function loadQuizLeaderboard(){
+  const list=document.getElementById("leaderboardList");
+
+  try{
+    const snapshot=await db.collection("quizLeaderboard")
+      .orderBy("bestScorePercent","desc")
+      .limit(10)
+      .get();
+
+    list.innerHTML="";
+
+    if(snapshot.empty){
+      list.innerHTML="<li>لا يوجد متسابقون حتى الآن.</li>";
+      return;
+    }
+
+    snapshot.forEach((doc)=>{
+      const data=doc.data();
+      const item=document.createElement("li");
+      item.textContent=(data.name||"متسابق")+" — "+(data.bestScorePercent||0)+"%";
+      list.appendChild(item);
+    });
+
+  }catch(error){
+    list.textContent="تعذر تحميل الترتيب.";
+    console.error(error);
+  }
+})();
+</script>
+
 <section id="myYouTubeVideos" style="padding:20px;text-align:center">
   <h2>فيديوهاتي على يوتيوب</h2>
   <p>الفيديوهات الطويلة والشورتس</p>
