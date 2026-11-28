@@ -1519,35 +1519,66 @@ if (quizPoints === 10) {
       }
   }
 }
-async function shareQuizCertificate() {
-  const certificate = document.getElementById("quizCertificate");
+function shareQuizCertificate() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1200;
+  canvas.height = 850;
 
-  try {
-    const arabicFont = new FontFace("ArabicCertificate", "url(https://fonts.gstatic.com/s/cairo/v28/SLXGc1nY6HkvalIkTpu0xg.woff2)");
-await arabicFont.load();
-document.fonts.add(arabicFont);
-    const canvas = await html2canvas(certificate, {
-      scale: 3,
-      backgroundColor: "#fffdf3",
-      useCORS: true,
-      onclone: (doc) => {
-        const cert = doc.getElementById("quizCertificate");
-        cert.style.direction = "rtl";
-        cert.style.textAlign = "center";
-        cert.style.fontFamily = "ArabicCertificate, Tahoma, Arial, sans-serif";
-        cert.style.lineHeight = "2";
-      }
-    });
+  const ctx = canvas.getContext("2d");
 
-    const link = document.createElement("a");
-    link.download = "شهادة-المسابقة.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+  // خلفية الشهادة
+  ctx.fillStyle = "#fffdf3";
+  ctx.fillRect(0, 0, 1200, 850);
 
-  } catch (error) {
-    alert("تعذر إنشاء صورة الشهادة.");
-  }
-  }
+  // الإطار الذهبي
+  ctx.strokeStyle = "#d4af37";
+  ctx.lineWidth = 12;
+  ctx.strokeRect(25, 25, 1150, 800);
+
+  ctx.lineWidth = 3;
+  ctx.strokeRect(45, 45, 1110, 760);
+
+  // إعداد الكتابة العربية
+  ctx.direction = "rtl";
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#073f3b";
+
+  ctx.font = "bold 55px Tahoma, Arial";
+  ctx.fillText("شهادة إتمام المسابقة الإسلامية", 600, 160);
+
+  ctx.font = "32px Tahoma, Arial";
+  ctx.fillText("تشهد إدارة موقع عبد الفتاح الإسلامي بأن", 600, 270);
+
+  const name =
+    document.getElementById("certificateName").textContent || "المتسابق";
+
+  ctx.font = "bold 65px Tahoma, Arial";
+  ctx.fillStyle = "#b18a20";
+  ctx.fillText(name, 600, 390);
+
+  ctx.fillStyle = "#073f3b";
+  ctx.font = "30px Tahoma, Arial";
+  ctx.fillText("قد أتم المسابقة الإسلامية بنجاح", 600, 485);
+  ctx.fillText("وحصل على الدرجة الكاملة", 600, 535);
+
+  ctx.font = "bold 65px Tahoma, Arial";
+  ctx.fillText("10 / 10", 600, 640);
+
+  ctx.font = "28px Tahoma, Arial";
+  ctx.fillText("مقدمة من: موقع عبد الفتاح الإسلامي", 600, 710);
+
+  const date =
+    document.getElementById("certificateDate").textContent;
+
+  ctx.font = "23px Tahoma, Arial";
+  ctx.fillText(date, 600, 765);
+
+  // تنزيل الصورة
+  const link = document.createElement("a");
+  link.download = "شهادة-المسابقة.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+                                      }
 </script>
 
 <section id="myYouTubeVideos" style="padding:20px;text-align:center">
