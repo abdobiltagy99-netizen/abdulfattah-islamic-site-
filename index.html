@@ -2990,36 +2990,23 @@ auth.onAuthStateChanged(user => {
   }
 });
 </script>
-<section id="quizAchievements" style="padding:25px 15px;text-align:center">
-  <h2>🏆 سجل إنجازات المتسابقين</h2>
-  <p>تابع إنجازاتك في المسابقات الإسلامية</p>
 
-  <div style="max-width:650px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+<details id="quizAchievements" style="max-width:500px;margin:12px auto;padding:10px;border:1px solid #d4af37;border-radius:12px;background:#f8f6ed;color:#073f3b;text-align:center">
+  <summary style="cursor:pointer;font-weight:bold;padding:8px">
+    🏆 إنجازاتي في المسابقات
+  </summary>
 
-    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
-      <h3>المسابقات</h3>
-      <h2 id="achievementGames">0</h2>
-    </div>
-
-    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
-      <h3>إجمالي النقاط</h3>
-      <h2 id="achievementPoints">0</h2>
-    </div>
-
-    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
-      <h3>أفضل نتيجة</h3>
-      <h2 id="achievementBest">0</h2>
-    </div>
-
-    <div style="background:#073f3b;color:white;padding:22px;border-radius:15px">
-      <h3>أفضل نسبة</h3>
-      <h2 id="achievementPercent">0%</h2>
-    </div>
-
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px">
+    <div>المسابقات: <strong id="achievementGames">0</strong></div>
+    <div>النقاط: <strong id="achievementPoints">0</strong></div>
+    <div>أفضل نتيجة: <strong id="achievementBest">0</strong></div>
+    <div>أفضل نسبة: <strong id="achievementPercent">0%</strong></div>
   </div>
 
-  <p id="achievementStatus">جارٍ تحميل الإنجازات...</p>
-</section>
+  <p id="achievementStatus" style="font-size:12px;margin:5px">
+    جارٍ تحميل الإنجازات...
+  </p>
+</details>
 
 <script>
 (function(){
