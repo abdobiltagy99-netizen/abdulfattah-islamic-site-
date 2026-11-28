@@ -1332,24 +1332,49 @@ if (savedKhatma) {
 </div>
 </section><section id="myYouTubeVideos" style="padding:20px;text-align:center">
   <h2>فيديوهاتي على يوتيوب</h2>
-  <p>جميع فيديوهات القناة وشورتس</p>
+  <p>الفيديوهات الطويلة والشورتس</p>
 
-  <div style="width:100%;max-width:900px;margin:auto">
-    <iframe
-      src="https://www.youtube.com/embed/aVo6Ae5Vpuw"
-      style="width:100%;aspect-ratio:16/9;border:0;border-radius:15px"
-      title="فيديوهات قناة عبد الفتاح"
-      allowfullscreen>
-    </iframe>
+  <div style="display:flex;gap:10px;justify-content:center;margin:15px 0">
+    <button onclick="showMyVideos('long')">الفيديوهات</button>
+    <button onclick="showMyVideos('shorts')">الشورتس</button>
   </div>
 
-  <a href="https://youtube.com/@abdobiltagy"
-     target="_blank"
-     rel="noopener noreferrer"
-     style="display:inline-block;margin-top:15px;padding:12px 20px;background:#d4af37;color:#073f3b;border-radius:10px;text-decoration:none;font-weight:bold">
-    زيارة قناتي على يوتيوب
-  </a>
-  </section>
+  <div id="myLongVideos">
+    <iframe
+      src="https://www.youtube.com/embed/aVo6Ae5Vpuw"
+      style="width:100%;max-width:900px;aspect-ratio:16/9;border:0;border-radius:15px"
+      allowfullscreen>
+    </iframe>
+    <p>
+      <a href="https://youtube.com/@abdobiltagy/videos" target="_blank">
+        مشاهدة كل الفيديوهات على يوتيوب
+      </a>
+    </p>
+  </div>
+
+  <div id="myShortVideos" style="display:none">
+    <iframe
+      src="https://www.youtube.com/embed?listType=user_uploads&list=abdobiltagy"
+      style="width:100%;max-width:500px;aspect-ratio:9/16;border:0;border-radius:15px"
+      allowfullscreen>
+    </iframe>
+    <p>
+      <a href="https://youtube.com/@abdobiltagy/shorts" target="_blank">
+        مشاهدة كل الشورتس على يوتيوب
+      </a>
+    </p>
+  </div>
+</section>
+
+<script>
+function showMyVideos(type) {
+  document.getElementById("myLongVideos").style.display =
+    type === "long" ? "block" : "none";
+
+  document.getElementById("myShortVideos").style.display =
+    type === "shorts" ? "block" : "none";
+}
+</script>
 <script>
 'use strict';
 const QAPI='https://api.alquran.cloud/v1', $=id=>document.getElementById(id);
