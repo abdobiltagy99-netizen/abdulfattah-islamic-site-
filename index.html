@@ -1528,7 +1528,19 @@ async function shareQuizCertificate() {
   }
 
   try {
-    const canvas = await html2canvas(certificate, {
+    await document.fonts.ready;
+
+const canvas = await html2canvas(certificate, {
+  scale: 2,
+  backgroundColor: "#fffdf3",
+  useCORS: true,
+  onclone: (doc) => {
+    const cert = doc.getElementById("quizCertificate");
+    cert.style.direction = "rtl";
+    cert.style.textAlign = "center";
+    cert.style.fontFamily = "Tahoma, Arial, sans-serif";
+  }
+});
       backgroundColor: "#fffdf3",
       scale: 2
     });
