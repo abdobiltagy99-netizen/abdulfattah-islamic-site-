@@ -1330,7 +1330,145 @@ if (savedKhatma) {
 </article>
 
 </div>
-</section><section id="myYouTubeVideos" style="padding:20px;text-align:center">
+</section>
+<section id="islamicQuiz" style="padding:20px;text-align:center">
+  <h2>المسابقات الإسلامية</h2>
+  <p>اختبر معلوماتك في القرآن والسنة والسيرة النبوية</p>
+
+  <div class="panel" style="max-width:650px;margin:auto">
+    <div id="quizStart">
+      <h3>المسابقة الإسلامية</h3>
+      <p>10 أسئلة متنوعة في كل جولة</p>
+      <button onclick="startIslamicQuiz()">ابدأ المسابقة</button>
+    </div>
+
+    <div id="quizGame" style="display:none">
+      <p id="quizProgress"></p>
+      <h3 id="quizQuestion"></h3>
+      <div id="quizOptions"></div>
+      <p id="quizFeedback" style="line-height:1.8"></p>
+      <button id="quizNext" onclick="nextIslamicQuestion()" style="display:none">السؤال التالي</button>
+    </div>
+
+    <div id="quizResult" style="display:none">
+      <h3>انتهت المسابقة</h3>
+      <h2 id="quizScore"></h2>
+      <p id="quizMessage"></p>
+      <button onclick="startIslamicQuiz()">أعد المسابقة</button>
+    </div>
+  </div>
+</section>
+
+<style>
+#islamicQuiz .quiz-option {
+  display:block;
+  width:100%;
+  margin:10px 0;
+  padding:13px;
+  border:1px solid #d4af37;
+  border-radius:10px;
+  background:#073f3b;
+  color:white;
+  cursor:pointer;
+}
+#islamicQuiz .quiz-option:disabled {
+  opacity:1;
+  cursor:default;
+}
+#islamicQuiz .quiz-correct {
+  background:#176b3a;
+}
+#islamicQuiz .quiz-wrong {
+  background:#8b2525;
+}
+</style>
+
+<script>
+const islamicQuestions = [
+ {q:"كم عدد سور القرآن الكريم؟",a:["110","112","114","116"],c:2,d:"عدد سور القرآن الكريم 114 سورة."},
+ {q:"ما أول سورة في المصحف؟",a:["البقرة","الفاتحة","الإخلاص","الناس"],c:1,d:"سورة الفاتحة هي أول سور المصحف."},
+ {q:"ما أطول سورة في القرآن؟",a:["آل عمران","النساء","البقرة","المائدة"],c:2,d:"سورة البقرة هي أطول سور القرآن."},
+ {q:"كم عدد أركان الإسلام؟",a:["3","4","5","6"],c:2,d:"قال النبي ﷺ: «بني الإسلام على خمس» متفق عليه."},
+ {q:"ما الشهر الذي يصوم فيه المسلمون؟",a:["شعبان","رمضان","شوال","محرم"],c:1,d:"قال الله تعالى: ﴿شَهْرُ رَمَضَانَ الَّذِي أُنْزِلَ فِيهِ الْقُرْآنُ﴾ [البقرة: 185]."},
+ {q:"من أول الأنبياء؟",a:["نوح عليه السلام","إبراهيم عليه السلام","آدم عليه السلام","موسى عليه السلام"],c:2,d:"آدم عليه السلام أول البشر والأنبياء."},
+ {q:"ما اسم الغار الذي نزل فيه الوحي أول مرة؟",a:["ثور","حراء","أحد","النور"],c:1,d:"نزل الوحي على النبي ﷺ في غار حراء."},
+ {q:"كم عدد الصلوات المفروضة يوميًا؟",a:["3","4","5","6"],c:2,d:"الصلوات المفروضة خمس صلوات في اليوم والليلة."},
+ {q:"ما السورة التي لا تبدأ بالبسملة؟",a:["الأنفال","التوبة","يونس","هود"],c:1,d:"سورة التوبة لا تبدأ بالبسملة."},
+ {q:"من النبي الذي ابتلعه الحوت؟",a:["يونس عليه السلام","يوسف عليه السلام","إدريس عليه السلام","هود عليه السلام"],c:0,d:"قال الله تعالى: ﴿فَالْتَقَمَهُ الْحُوتُ وَهُوَ مُلِيمٌ﴾ [الصافات: 142]."},
+ {q:"ما قبلة المسلمين؟",a:["المسجد الأقصى","الكعبة","المسجد النبوي","جبل عرفات"],c:1,d:"الكعبة المشرفة قبلة المسلمين."},
+ {q:"ما الكتاب الذي أُنزل على موسى عليه السلام؟",a:["الإنجيل","الزبور","التوراة","القرآن"],c:2,d:"التوراة كتاب أنزله الله على موسى عليه السلام."}
+];
+
+let quizQuestions=[],quizIndex=0,quizPoints=0,quizAnswered=false;
+
+function startIslamicQuiz(){
+  quizQuestions=[...islamicQuestions].sort(()=>Math.random()-.5).slice(0,10);
+  quizIndex=0;
+  quizPoints=0;
+  document.getElementById("quizStart").style.display="none";
+  document.getElementById("quizResult").style.display="none";
+  document.getElementById("quizGame").style.display="block";
+  showIslamicQuestion();
+}
+
+function showIslamicQuestion(){
+  quizAnswered=false;
+  const q=quizQuestions[quizIndex];
+  document.getElementById("quizProgress").textContent=
+    "السؤال "+(quizIndex+1)+" من 10";
+  document.getElementById("quizQuestion").textContent=q.q;
+  document.getElementById("quizFeedback").textContent="";
+  document.getElementById("quizNext").style.display="none";
+  const box=document.getElementById("quizOptions");
+  box.innerHTML="";
+  q.a.forEach((answer,i)=>{
+    const b=document.createElement("button");
+    b.className="quiz-option";
+    b.textContent=answer;
+    b.onclick=()=>answerIslamicQuestion(i);
+    box.appendChild(b);
+  });
+}
+
+function answerIslamicQuestion(choice){
+  if(quizAnswered)return;
+  quizAnswered=true;
+  const q=quizQuestions[quizIndex];
+  const buttons=document.querySelectorAll("#quizOptions button");
+  buttons.forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.c)b.classList.add("quiz-correct");
+    if(i===choice&&i!==q.c)b.classList.add("quiz-wrong");
+  });
+  if(choice===q.c)quizPoints++;
+  document.getElementById("quizFeedback").textContent=
+    (choice===q.c?"إجابة صحيحة. ":"إجابة غير صحيحة. ")+
+    "الإجابة: "+q.a[q.c]+". "+q.d;
+  document.getElementById("quizNext").style.display="inline-block";
+  document.getElementById("quizNext").textContent=
+    quizIndex===9?"عرض النتيجة":"السؤال التالي";
+}
+
+function nextIslamicQuestion(){
+  quizIndex++;
+  if(quizIndex<10){
+    showIslamicQuestion();
+  }else{
+    document.getElementById("quizGame").style.display="none";
+    document.getElementById("quizResult").style.display="block";
+    document.getElementById("quizScore").textContent=quizPoints+" من 10";
+    document.getElementById("quizMessage").textContent=
+      quizPoints>=8?"أحسنت! حصلت على 8 إجابات صحيحة أو أكثر.":
+      "يمكنك المحاولة مرة أخرى لتحسين نتيجتك.";
+    const best=Math.max(quizPoints,
+      Number(localStorage.getItem("islamicQuizBest")||0));
+    localStorage.setItem("islamicQuizBest",best);
+    document.getElementById("quizMessage").textContent+=
+      " أعلى نتيجة لك: "+best+" من 10.";
+  }
+}
+</script>
+<section id="myYouTubeVideos" style="padding:20px;text-align:center">
   <h2>فيديوهاتي على يوتيوب</h2>
   <p>الفيديوهات الطويلة والشورتس</p>
 
