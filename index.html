@@ -1707,7 +1707,22 @@ function shareQuizCertificate() {
   link.click();
                                       }
 </script>
+<details id="quizAchievements" style="max-width:500px;margin:12px auto;padding:10px;border:1px solid #d4af37;border-radius:12px;background:#f8f6ed;color:#073f3b;text-align:center">
+  <summary style="cursor:pointer;font-weight:bold;padding:8px">
+    🏆 إنجازاتي في المسابقات
+  </summary>
 
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px">
+    <div>المسابقات: <strong id="achievementGames">0</strong></div>
+    <div>النقاط: <strong id="achievementPoints">0</strong></div>
+    <div>أفضل نتيجة: <strong id="achievementBest">0</strong></div>
+    <div>أفضل نسبة: <strong id="achievementPercent">0%</strong></div>
+  </div>
+
+  <p id="achievementStatus" style="font-size:12px;margin:5px">
+    جارٍ تحميل الإنجازات...
+  </p>
+</details>
 <section id="myYouTubeVideos" style="padding:20px;text-align:center">
   <h2>فيديوهاتي على يوتيوب</h2>
   <p>الفيديوهات الطويلة والشورتس</p>
@@ -2990,23 +3005,6 @@ auth.onAuthStateChanged(user => {
   }
 });
 </script>
-
-<details id="quizAchievements" style="max-width:500px;margin:12px auto;padding:10px;border:1px solid #d4af37;border-radius:12px;background:#f8f6ed;color:#073f3b;text-align:center">
-  <summary style="cursor:pointer;font-weight:bold;padding:8px">
-    🏆 إنجازاتي في المسابقات
-  </summary>
-
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px">
-    <div>المسابقات: <strong id="achievementGames">0</strong></div>
-    <div>النقاط: <strong id="achievementPoints">0</strong></div>
-    <div>أفضل نتيجة: <strong id="achievementBest">0</strong></div>
-    <div>أفضل نسبة: <strong id="achievementPercent">0%</strong></div>
-  </div>
-
-  <p id="achievementStatus" style="font-size:12px;margin:5px">
-    جارٍ تحميل الإنجازات...
-  </p>
-</details>
 
 <script>
 (function(){
